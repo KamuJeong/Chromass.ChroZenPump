@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chromass.ChroZenPump", "Chromass.ChroZenPump\Chromass.ChroZenPump.csproj", "{086FC267-386E-4C6F-A44B-E622842B8BAC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chromass.ChroZenPump.Tests", "Chromass.ChroZenPump.Tests\Chromass.ChroZenPump.Tests.csproj", "{1D1184C3-383C-4213-9D7A-3C5294FE52D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D1184C3-383C-4213-9D7A-3C5294FE52D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1184C3-383C-4213-9D7A-3C5294FE52D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1184C3-383C-4213-9D7A-3C5294FE52D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1184C3-383C-4213-9D7A-3C5294FE52D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

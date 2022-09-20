@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chromass.ChroZenPump", "Chromass.ChroZenPump\Chromass.ChroZenPump.csproj", "{086FC267-386E-4C6F-A44B-E622842B8BAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086FC267-386E-4C6F-A44B-E622842B8BAC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE1B5F06-3673-4D56-B23D-7152A890B770}
+	EndGlobalSection
+EndGlobal

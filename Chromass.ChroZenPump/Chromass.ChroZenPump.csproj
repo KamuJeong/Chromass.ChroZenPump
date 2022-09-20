@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ChromassProtocol">
+      <HintPath>..\..\ChroZen.CDS.Core\ChromassProtocol\bin\Debug\net6.0\ChromassProtocol.dll</HintPath>
+    </Reference>
+    <Reference Include="Communicator">
+      <HintPath>..\..\ChroZen.CDS.Core\Communicator\bin\Debug\net6.0\Communicator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

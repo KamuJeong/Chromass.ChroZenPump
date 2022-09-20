@@ -1,4 +1,5 @@
-﻿using Chromass.ChroZenPump.PacketWrappers;
+﻿using Chromass.ChroZenPump.Packets;
+using Chromass.ChroZenPump.PacketWrappers;
 using ChromassProtocol;
 using Communicator;
 
@@ -191,6 +192,39 @@ namespace Chromass.ChroZenPump
         public void SendCalibration()
         {
             tcp.Send(Calibration.SendPacket());
+        }
+
+        public void SendCommand(PumpCommands command)
+        {
+            var setup = new SetupWarpper();
+            setup.Packet.Command = command;
+            tcp.Send(setup.SendPacket(size : 1));
+        }
+
+        public void SendEvent(float flow, float a, float b, float c)
+        {
+            Events[200].Packet = Setup.Packet.InitEvent;
+
+            Events[200].Packet.fFlowSpeed = flow;
+            Events[200].Packet.fRatio[0] = a;
+            Events[200].Packet.fRatio[1] = b;
+            Events[200].Packet.fRatio[2] = c;
+            Events[200].Packet.fRatio[3] = 100.0f - a - b - c;
+            Events[200].Packet.btCurve = EventCurves.Lean;
+
+            tcp.Send(Events[200].SendPacket(index: 200));
+        }
+
+        public void SendEvent(SwitchOutputs sw1, SwitchOutputs sw2, MarkOutputs mark)
+        {
+            Events[200].Packet = Setup.Packet.InitEvent;
+            Events[200].Packet.btCurve = EventCurves.None;
+
+            Events[200].Packet.btSwitch1 = sw1;
+            Events[200].Packet.btSwitch2 = sw2;
+            Events[200].Packet.btMarkOut = mark;
+
+            tcp.Send(Events[200].SendPacket(index: 200));
         }
 
         public void Close()

@@ -14,7 +14,15 @@ namespace Chromass.ChroZenPump.Packets
         None = 0xff
     }
 
+    public enum SwitchOutputs : byte
+    {
+        Off, On, Pulse
+    }
 
+    public enum MarkOutputs : byte
+    {
+        Close, Open, Pulse
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct Event
@@ -26,8 +34,8 @@ namespace Chromass.ChroZenPump.Packets
         public EventCurves btCurve;      // 이벤트 타입
 
         // 외부 출력
-        public byte btSwitch1;    // 0: OFF, 1: ON, 2:Pulse 
-        public byte btSwitch2;    // 
-        public byte btMarkOut;	// 0: close, 1: Open, 2:Pulse
+        public SwitchOutputs btSwitch1;    // 0: OFF, 1: ON, 2:Pulse 
+        public SwitchOutputs btSwitch2;    // 
+        public MarkOutputs btMarkOut;	// 0: close, 1: Open, 2:Pulse
     }
 }

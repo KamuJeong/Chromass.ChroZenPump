@@ -39,7 +39,7 @@ namespace Chromass.ChroZenPump
         public void Output(SwitchOutputs sw1, SwitchOutputs sw2, MarkOutputs mark) => Controller.SendEvent(sw1, sw2, mark);
 
         public void Ready() => Controller.SendCommand(PumpCommands.Initialize);
-        public void Purege() => Controller.SendCommand(PumpCommands.Purge);
+        public void Purge() => Controller.SendCommand(PumpCommands.Purge);
         public void Run() => Controller.SendCommand(PumpCommands.Gradient);
         public void Stop() => Controller.SendCommand(PumpCommands.Stop);
         public void Halt() => Controller.SendCommand(PumpCommands.Halt);

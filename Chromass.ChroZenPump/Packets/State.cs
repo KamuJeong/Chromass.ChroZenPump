@@ -7,19 +7,6 @@ using System.Threading.Tasks;
 
 namespace Chromass.ChroZenPump.Packets
 {
-    public enum PumpStatus
-    {
-        Initializing,
-        Ready,
-        Gradient,
-        Pressure,
-        Diagnosis,
-        Halt,
-        Error,
-        Purge,
-        Service,
-        Finish
-    }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct State
@@ -27,7 +14,7 @@ namespace Chromass.ChroZenPump.Packets
         public PumpStatus btStatus;  // 0: Initializing, 1: Ready, 2: Gradient, 
                                     // 3: Pressure, 4: Diagnosis, 5: Halt, 
                                     // 6: Error, 7: Purge, 8: Service, 9: Finish
-        public uint uErrorCode;
+        public PumpErrors uErrorCode;
         public int nEventStep;    // 현재 실행 중 인 Step 번호 
         public float fElapseTime;      // Running Time[min] 
         public float fFlowSpeed;       // 현재유속 

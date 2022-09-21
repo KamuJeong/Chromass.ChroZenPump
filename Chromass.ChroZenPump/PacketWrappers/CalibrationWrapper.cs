@@ -12,5 +12,6 @@ namespace Chromass.ChroZenPump.PacketWrappers
     {
         public const uint PacketCode = 0x90108;
         public override uint Code => PacketCode;
+
     }
 }

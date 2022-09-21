@@ -7,37 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chromass.ChroZenPump.Packets
 {
-	public enum PumpMessageTypes : byte
-	{
-		None = 0,
-		State,
-		ExtIn,
-		ExtOut, // not used
-		Error,
-	}
-
-	public enum PumpExtInMessageValues : short
-	{
-		Start = 0,
-		Ready,
-		NotReady
-	}
-
-	public enum PumpErrors
-    {
-		None = 0,
-		Config,
-		Setup,
-		Service,
-		HighPressure,
-		LowPressure,
-		HighFlow,
-		LowFlow,
-		Leakage,
-		Degassor
-	}
-
-	[StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
 	public struct SelfMessage
     {
 		public PumpMessageTypes btMessage;    // 1: State, 2: ExtIn, 3:ExtOut, 4: Error, 

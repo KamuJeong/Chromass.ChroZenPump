@@ -7,23 +7,6 @@ using System.Threading.Tasks;
 
 namespace Chromass.ChroZenPump.Packets
 {
-    public enum EventCurves : byte
-    {
-        Level = 0,
-        Lean = 5,
-        None = 0xff
-    }
-
-    public enum SwitchOutputs : byte
-    {
-        Off, On, Pulse
-    }
-
-    public enum MarkOutputs : byte
-    {
-        Close, Open, Pulse
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     public struct Event
     {

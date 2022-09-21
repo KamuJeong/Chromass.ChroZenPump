@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Chromass.ChroZenPump\Chromass.ChroZenPump.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Communicator">
+      <HintPath>..\..\ChroZen.CDS.Core\Communicator\bin\Debug\net6.0\Communicator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

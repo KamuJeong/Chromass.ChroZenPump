@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chromass.ChroZenPump.PacketWrappers
 {
-    public class SetupWarpper : PacketWrapper<Setup>
+    public class SetupWrapper : PacketWrapper<Setup>
     {
         public const uint PacketCode = 0x90102;
         public override uint Code => PacketCode;

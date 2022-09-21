@@ -8,14 +8,14 @@ namespace Chromass.ChroZenPump
     public class Controller
     {
         private bool connected = false;
-        private Tcp tcp = new Tcp();
+        private ICommunicator tcp;
         private TaskCompletionSource? taskGreeting;
 
         public bool IsConnected => connected && tcp.IsConnected;
 
         public InformationWrapper Information { get; } = new InformationWrapper();
         public ConfigurationWrapper Configuration { get; } = new ConfigurationWrapper();
-        public SetupWarpper Setup { get; } = new SetupWarpper();
+        public SetupWrapper Setup { get; } = new SetupWrapper();
         public EventWrapper[] Events { get; } = new EventWrapper[201];
         public StateWrapper State { get; } = new StateWrapper();
 
@@ -23,8 +23,10 @@ namespace Chromass.ChroZenPump
         public CalibrationWrapper Calibration { get; } = new CalibrationWrapper();
         public DiagnosisDataWrapper DiagnosisData { get; } = new DiagnosisDataWrapper();
 
-        public Controller()
+        public Controller(ICommunicator comm)
         {
+            tcp = comm;
+
             for (int i = 0; i < Events.Length; i++)
                 Events[i] = new EventWrapper();
 
@@ -50,7 +52,7 @@ namespace Chromass.ChroZenPump
                             case ConfigurationWrapper.PacketCode:
                                 Configuration.Assemble(this, slot, header.Index, header.SlotOffset);
                                 break;
-                            case SetupWarpper.PacketCode:
+                            case SetupWrapper.PacketCode:
                                 Setup.Assemble(this, slot, header.Index, header.SlotOffset);
                                 break;
                             case StateWrapper.PacketCode:
@@ -196,7 +198,7 @@ namespace Chromass.ChroZenPump
 
         public void SendCommand(PumpCommands command)
         {
-            var setup = new SetupWarpper();
+            var setup = new SetupWrapper();
             setup.Packet.Command = command;
             tcp.Send(setup.SendPacket(size : 1));
         }
@@ -210,7 +212,7 @@ namespace Chromass.ChroZenPump
             Events[200].Packet.fRatio[1] = b;
             Events[200].Packet.fRatio[2] = c;
             Events[200].Packet.fRatio[3] = 100.0f - a - b - c;
-            Events[200].Packet.btCurve = EventCurves.Lean;
+            Events[200].Packet.btCurve = EventCurves.Level;
 
             tcp.Send(Events[200].SendPacket(index: 200));
         }

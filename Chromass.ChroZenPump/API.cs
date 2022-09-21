@@ -18,6 +18,7 @@ namespace Chromass.ChroZenPump
             Configuration = new Configuration(Controller.Configuration, Controller.SendConfiguration);
             Setup = new Setup(Controller.Setup, Controller.Events, Controller.SendSetup);
             State = new State(Controller.State);
+            Calibration = new Calibration(Controller.Calibration, Controller.SendCalibration);
 
             State.Wrapper.Updated += OnStateChanged;
             Controller.SelfMessage.Updated += OnMessageReceived;
@@ -33,6 +34,7 @@ namespace Chromass.ChroZenPump
         public Configuration Configuration { get; init; }
         public Setup Setup { get; init; }
         public State State { get; init; }
+        public Calibration Calibration { get; init; }
 
         public void SetPurgeFlow(float flow, float a, float b, float c) => Controller.SendEvent(flow, a, b, c);
         public void SetServiceFlow(float flow, float a, float b, float c) => SetPurgeFlow(flow, a, b, c);

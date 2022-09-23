@@ -11,58 +11,64 @@ namespace Chromass.ChroZenPump.APIs
 {
     public class Setup : Base<Packets.Setup>
     {
-        public IList<Event> Events { get; init; }
-        public IList<Gradient> Gradients { get; init; }
+        private Action? _action;
+        private IEnumerable<EventWrapper> _events;
 
         public Setup(SetupWrapper wrapper, IEnumerable<EventWrapper> events, Action? action) : base(wrapper, action)
         {
-            Events = new List<Event>(events.Skip(100).Select(e => new Event(e, action)));
-            Gradients = new List<Gradient>(events.Take(100).Select(e => new Gradient(e, action)));
+            _action = action;
+            _events = events;
         }
 
-        public Setup(Setup src) : base(new SetupWrapper { Packet = src.Wrapper.Packet }, null) 
+        public Setup(Setup src) : base(new SetupWrapper { Packet = src.Wrapper.Packet }, null)
         {
-            Events = new List<Event>(src.Events.Select(e => new Event(e)));
-            Gradients = new List<Gradient>(src.Gradients.Take(100).Select(e => new Gradient(e)));
+            _events = new EventWrapper[200];
+            foreach (var (d, s) in Enumerable.Zip(_events, src._events))
+            {
+                d.Packet = s.Packet;
+            }
         }
 
         public override void Assign(Base<Packets.Setup> src)
         {
             base.Assign(src);
 
-            if(src is Setup setup)
+            if (src is Setup setup)
             {
-                for (int i = 0; i < setup.GradientCount; i++)
-                    Gradients[i].Assign(setup.Gradients[i]);
-
-                for (int i = 0; i < setup.EventCount; i++)
-                    Events[i].Assign(setup.Events[i]);
-            }
-        }
-
-        public int GradientCount
-        {
-            get => Wrapper.Packet.nGradientCount;
-            set
-            {
-                if (Wrapper.Packet.nGradientCount != value)
+                foreach (var (d, s) in Enumerable.Zip(_events, setup._events))
                 {
-                    Wrapper.Packet.nGradientCount = (ushort)value;
-                    CallAction();
+                    d.Packet = s.Packet;
                 }
             }
         }
 
-        public int EventCount
+        public IEnumerable<Gradient> Gradients
         {
-            get => Wrapper.Packet.nEventCount;
+            get => _events.Take(Wrapper.Packet.nGradientCount).Select(e => new Gradient(e, _action));
             set
             {
-                if (Wrapper.Packet.nEventCount != value)
+                Wrapper.Packet.nGradientCount = (ushort)value.Count();
+                foreach (var (evt, idx) in value.Take(Wrapper.Packet.nGradientCount).Select((e, i) => (e, i)))
                 {
-                    Wrapper.Packet.nEventCount = (ushort)value;
-                    CallAction();
+                    _events.ElementAt(idx).Packet = evt.Wrapper.Packet;
                 }
+
+                CallAction();
+            }
+        }
+
+        public IEnumerable<Event> Events
+        {
+            get => _events.Skip(100).Take(Wrapper.Packet.nEventCount).Select(e => new Event(e, _action));
+            set
+            {
+                Wrapper.Packet.nEventCount = (ushort)value.Count();
+                foreach (var (evt, idx) in value.Take(Wrapper.Packet.nEventCount).Select((e, i) => (e, i)))
+                {
+                    _events.ElementAt(100 + idx).Packet = evt.Wrapper.Packet;
+                }
+
+                CallAction();
             }
         }
 
@@ -253,7 +259,7 @@ namespace Chromass.ChroZenPump.APIs
             get => Wrapper.Packet.nExtoutTime;
             set
             {
-                if(Wrapper.Packet.nExtoutTime != value)
+                if (Wrapper.Packet.nExtoutTime != value)
                 {
                     Wrapper.Packet.nExtoutTime = value;
                     CallAction();

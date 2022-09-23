@@ -16,28 +16,30 @@ namespace Chromass.ChroZenPump.APIs
         public float DisplayedPressure { get; set; }
     }
 
-
     public class Calibration : Base<Packets.Calibration>
     {
         public Calibration(PacketWrapper<Packets.Calibration> wrapper, Action? action) : base(wrapper, action)
         {
         }
 
-        public Calibration(Calibration src) : base(new CalibrationWrapper { Packet = src.Wrapper.Packet }, null) 
+        public Calibration(Calibration src) : base(new CalibrationWrapper { Packet = src.Wrapper.Packet }, null)
         {
         }
 
         public IEnumerable<CalibrationPoint> Points
         {
-            get
-            {
-                for (int i = 0; i < Wrapper.Packet.Count; ++i) 
-                    yield return new CalibrationPoint();
-            }
+            get => Enumerable.Range(0, Wrapper.Packet.Count)
+                                        .Select(i => new CalibrationPoint
+                                        {
+                                            SettingFlow = Wrapper.Packet.SetFlow[i],
+                                            MeasuredFlow = Wrapper.Packet.ActFlow[i],
+                                            DisplayedPressure = Wrapper.Packet.Pressure[i]
+                                        });
+
             set
             {
                 Wrapper.Packet.Count = Points.Count();
-                for(int i=0; i<Wrapper.Packet.Count; i++)
+                for (int i = 0; i < Wrapper.Packet.Count; i++)
                 {
                     Wrapper.Packet.SetFlow[i] = Points.ElementAt(i).SettingFlow;
                     Wrapper.Packet.ActFlow[i] = Points.ElementAt(i).MeasuredFlow;
@@ -47,6 +49,5 @@ namespace Chromass.ChroZenPump.APIs
                 CallAction();
             }
         }
-
     }
 }

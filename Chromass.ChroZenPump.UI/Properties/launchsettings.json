@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Chromass.ChroZenPump.UI (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Chromass.ChroZenPump.UI (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}

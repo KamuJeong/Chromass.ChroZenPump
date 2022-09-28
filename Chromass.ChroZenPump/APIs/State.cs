@@ -15,9 +15,9 @@ namespace Chromass.ChroZenPump.APIs
 
         public State(State src) : base(new StateWrapper { Packet = src.Wrapper.Packet }, null) { }
 
-        public PumpStatus Status => Wrapper.Packet.btStatus;
+        public Statuses Status => Wrapper.Packet.btStatus;
 
-        public PumpErrors Error => Wrapper.Packet.uErrorCode;
+        public Errors Error => Wrapper.Packet.uErrorCode;
 
         public float ElapsedTime => Wrapper.Packet.fElapseTime;
         

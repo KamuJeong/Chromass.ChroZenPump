@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum PumpErrors
+    public enum Errors
     {
 		None = 0,
 		Config,

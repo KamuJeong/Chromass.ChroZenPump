@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum PumpCommands
+    public enum Commands
     {
 		None = 0,
 		Initialize,

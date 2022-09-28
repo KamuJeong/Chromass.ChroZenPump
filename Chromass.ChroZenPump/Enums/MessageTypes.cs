@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum PumpMessageTypes : byte
+    public enum MessageTypes : byte
 	{
 		None = 0,
 		State,

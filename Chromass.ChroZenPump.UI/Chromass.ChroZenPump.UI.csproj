@@ -16,6 +16,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\ConnectionPage.xaml" />
+    <None Remove="Views\InformationView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,9 +41,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ChromassProtocol">
+      <HintPath>..\..\ChroZen.CDS.Core\ChromassProtocol\bin\Debug\net6.0\ChromassProtocol.dll</HintPath>
+    </Reference>
     <Reference Include="Communicator">
       <HintPath>..\..\ChroZen.CDS.Core\Communicator\bin\Debug\net6.0\Communicator.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\InformationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

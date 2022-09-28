@@ -7,11 +7,10 @@ namespace Chromass.ChroZenPump;
 
 public class Controller
 {
-    private bool connected = false;
     private ICommunicator tcp;
     private TaskCompletionSource? taskGreeting;
 
-    public bool IsConnected => connected && tcp.IsConnected;
+    public bool IsConnected => tcp.IsConnected && State.Packet.btStatus != Statuses.Initializing;
 
     public InformationWrapper Information { get; } = new InformationWrapper();
     public ConfigurationWrapper Configuration { get; } = new ConfigurationWrapper();
@@ -105,14 +104,12 @@ public class Controller
 
         if (tcp.IsConnected)
         {
-            if (await GreetingAsync(1000))
+            if (await GreetingAsync(2000))
             {
-                await AskInformationAsync(1000);
-                await AskConfigurationAsync(1000);
-                await AskSetupAsync(1000);
-                await AskCalibrationAsync(1000);
-
-                connected = true;
+                await AskInformationAsync(2000);
+                await AskConfigurationAsync(2000);
+                await AskSetupAsync(2000);
+                await AskCalibrationAsync(2000);
             }
             else
             {
@@ -201,7 +198,7 @@ public class Controller
         tcp.Send(Calibration.SendPacket());
     }
 
-    public void SendCommand(PumpCommands command)
+    public void SendCommand(Commands command)
     {
         var setup = new SetupWrapper();
         setup.Packet.Command = command;
@@ -236,7 +233,6 @@ public class Controller
 
     public void Close()
     {
-        connected = false;
         if (tcp.IsConnected)
             tcp.Close();
     }

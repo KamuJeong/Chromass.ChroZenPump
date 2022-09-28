@@ -11,10 +11,10 @@ namespace Chromass.ChroZenPump.Packets
     [StructLayout(LayoutKind.Sequential)]
     public struct State
     {
-        public PumpStatus btStatus;  // 0: Initializing, 1: Ready, 2: Gradient, 
+        public Statuses btStatus;  // 0: Initializing, 1: Ready, 2: Gradient, 
                                     // 3: Pressure, 4: Diagnosis, 5: Halt, 
                                     // 6: Error, 7: Purge, 8: Service, 9: Finish
-        public PumpErrors uErrorCode;
+        public Errors uErrorCode;
         public int nEventStep;    // 현재 실행 중 인 Step 번호 
         public float fElapseTime;      // Running Time[min] 
         public float fFlowSpeed;       // 현재유속 

@@ -13,7 +13,7 @@ namespace Chromass.ChroZenPump.APIs
         public Configuration(ConfigurationWrapper packet, Action? action) : base(packet, action) { }
         public Configuration(Configuration src) : base(new ConfigurationWrapper { Packet = src.Wrapper.Packet }, null) { }
 
-        public PumpModes Mode => Wrapper.Packet.btMode;
+        public Modes Mode => Wrapper.Packet.btMode;
         
         public float MaxFlowLimit
         {

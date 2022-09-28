@@ -16,35 +16,35 @@ namespace Chromass.ChroZenPump.APIs
             packet = wrapper.Packet;
         }
 
-        public PumpMessageTypes Type => packet.btMessage;
+        public MessageTypes Type => packet.btMessage;
         public short OldValue => packet.sOldValue;
         public short NewValue => packet.sNewValue;
-        public PumpErrors Error => packet.uErrorCode;
+        public Errors Error => packet.uErrorCode;
 
         public override string ToString()
         {
             switch(Type)
             {
-                case PumpMessageTypes.State:
-                    return $"Change to {(PumpStatus)NewValue}";
+                case MessageTypes.State:
+                    return $"Change to {(Statuses)NewValue}";
 
-                case PumpMessageTypes.ExtIn:
-                    return $"{(PumpExtInMessageValues)NewValue} event in"; 
+                case MessageTypes.ExtIn:
+                    return $"{(ExtInMessageValues)NewValue} event in"; 
 
-                case PumpMessageTypes.Error:
+                case MessageTypes.Error:
                     switch(Error)
                     {
-                        case PumpErrors.Config:         return "Configuration fail";
-                        case PumpErrors.Setup:          return "Setup fail";
-                        case PumpErrors.Service:        return "Calibration fail";
-                        case PumpErrors.HighPressure:   return "High pressure limit error";
-                        case PumpErrors.LowPressure:    return "Low pressure limit error";
-                        case PumpErrors.HighFlow:       return "High flow limit error";
-                        case PumpErrors.LowFlow:        return "Low flow limit error";
-                        case PumpErrors.Leakage:        return "Leakage error";
-                        case PumpErrors.Degassor:       return "Degassor error";
-                        case PumpErrors.Motor:          return "Motor error";
-                        case PumpErrors.Bubble:         return "Bubble warning";
+                        case Errors.Config:         return "Configuration fail";
+                        case Errors.Setup:          return "Setup fail";
+                        case Errors.Service:        return "Calibration fail";
+                        case Errors.HighPressure:   return "High pressure limit error";
+                        case Errors.LowPressure:    return "Low pressure limit error";
+                        case Errors.HighFlow:       return "High flow limit error";
+                        case Errors.LowFlow:        return "Low flow limit error";
+                        case Errors.Leakage:        return "Leakage error";
+                        case Errors.Degassor:       return "Degassor error";
+                        case Errors.Motor:          return "Motor error";
+                        case Errors.Bubble:         return "Bubble warning";
                     }
                     return "Unknown error";
             }

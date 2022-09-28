@@ -10,11 +10,11 @@ namespace Chromass.ChroZenPump.Packets
     [StructLayout(LayoutKind.Sequential)]
 	public struct SelfMessage
     {
-		public PumpMessageTypes btMessage;    // 1: State, 2: ExtIn, 3:ExtOut, 4: Error, 
+		public MessageTypes btMessage;    // 1: State, 2: ExtIn, 3:ExtOut, 4: Error, 
 
 		public short sOldValue;
 		public short sNewValue;
 
-		public PumpErrors uErrorCode;
+		public Errors uErrorCode;
 	}
 }

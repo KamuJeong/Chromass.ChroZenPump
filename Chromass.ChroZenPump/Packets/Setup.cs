@@ -11,7 +11,7 @@ namespace Chromass.ChroZenPump.Packets
     [StructLayout(LayoutKind.Sequential)]
 	public struct Setup
     {
-		public PumpCommands Command;   // 0:None, 1:Set/Init Flow, 2:Set Pressure, 
+		public Commands Command;   // 0:None, 1:Set/Init Flow, 2:Set Pressure, 
 								// 3:Gradient Start, 4:Stop, 5:Halt Pumping, 
 								// 6:Diagnosis Start, 7:Set Pressure 0, 
 								// 8:Reset Error, 9:Purge, 10: Service

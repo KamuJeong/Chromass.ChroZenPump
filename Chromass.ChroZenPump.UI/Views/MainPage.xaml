@@ -14,22 +14,37 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock
-            Grid.Row="0"
-            x:Uid="Main_Title"
-            Style="{StaticResource PageTitleStyle}" 
-            Visibility="{x:Bind ViewModel.APIViewModel.IsConnected, Mode=OneWay}"/>
+        <Grid
+            Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Uid="Main_Title"
+                       Style="{StaticResource PageTitleStyle}"
+                       Margin="10"/>
+
+            <Button Grid.Column="1" 
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Command="{x:Bind ViewModel.Close}">
+                Close
+            </Button>
+        </Grid>
 
         <local:ConnectionPage Grid.Row="1"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
                               ViewModel="{x:Bind ViewModel.APIViewModel.ConnectionViewModel}"
                               Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsVisible, Mode=OneWay}">
-            
+
         </local:ConnectionPage>
 
-        <Grid Grid.Row="1">
-            
+        <Grid Grid.Row="1"
+            Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
+            <local:InformationView ViewModel="{x:Bind ViewModel.APIViewModel.InformationViewModel}" />
         </Grid>
     </Grid>
 </Page>

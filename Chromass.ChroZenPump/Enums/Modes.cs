@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum PumpModes : byte
+    public enum Modes : byte
     {
         Quarternary = 0,
         Binary,

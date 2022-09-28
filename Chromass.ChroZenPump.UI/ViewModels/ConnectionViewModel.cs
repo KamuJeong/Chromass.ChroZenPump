@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Chromass.ChroZenPump.APIs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -15,14 +16,30 @@ public class ConnectionViewModel : ObservableObject
     {
         APIViewModel = apiViewModel;
 
+        apiViewModel.API.StateUpdated += API_StateUpdated;
+
         Connect = new AsyncRelayCommand(ConnectExecuteAsync);
         Cancel = new RelayCommand(CancelExecute);
+
+
     }
 
     public APIViewModel APIViewModel
     {
         get; init;
     }
+
+    private void API_StateUpdated(object? sender, State e)
+    {
+        if (new[] { Statuses.Initializing, Statuses.Halt }.Contains(e.Status))
+        {
+            OnPropertyChanged(nameof(IsConnected));
+            OnPropertyChanged(nameof(IsVisible));
+            OnPropertyChanged(nameof(IsEditable));
+        }
+    }
+
+    public bool IsConnected => APIViewModel.API.IsConnected;
 
     private string? address = "localhost";
     public string? Address
@@ -38,26 +55,20 @@ public class ConnectionViewModel : ObservableObject
         set => SetProperty(ref port, value);
     }
 
-    private bool isVisible = true;
-    public bool IsVisible
-    {
-        get => isVisible;
-        set => SetProperty(ref isVisible, value);
-    }
-
-    private bool isEditable = true;
-    public bool IsEditable
-    {
-        get => isEditable;
-        set => SetProperty(ref isEditable, value);
-    }
-
     private bool isConnecting;
     public bool IsConnecting
     {
         get => isConnecting;
-        set => SetProperty(ref isConnecting, value);
+        set
+        {
+            SetProperty(ref isConnecting, value);
+            OnPropertyChanged(nameof(IsEditable));
+        }
     }
+
+    public bool IsVisible => !IsConnected;
+
+    public bool IsEditable => !IsConnecting && !IsConnected;
 
     public ICommand Connect
     {
@@ -66,16 +77,11 @@ public class ConnectionViewModel : ObservableObject
 
     private async Task ConnectExecuteAsync()
     {
-        IsEditable = false;
         IsConnecting = true;
 
         await APIViewModel.API.ConnectAsync(Address!, Port, CancellationToken.None);
 
         IsConnecting = false;
-        if (!APIViewModel.IsConnected)
-        {
-            IsEditable = true;
-        }
     }
 
     public ICommand Cancel

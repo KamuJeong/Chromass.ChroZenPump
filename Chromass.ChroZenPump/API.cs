@@ -40,14 +40,14 @@ public class API
     public void SetServiceFlow(float flow, float a, float b, float c) => SetPurgeFlow(flow, a, b, c);
     public void Output(SwitchOutputs sw1, SwitchOutputs sw2, MarkOutputs mark) => Controller.SendEvent(sw1, sw2, mark);
 
-    public void Ready() => Controller.SendCommand(PumpCommands.Initialize);
-    public void Purge() => Controller.SendCommand(PumpCommands.Purge);
-    public void Run() => Controller.SendCommand(PumpCommands.Gradient);
-    public void Stop() => Controller.SendCommand(PumpCommands.Stop);
-    public void Halt() => Controller.SendCommand(PumpCommands.Halt);
-    public void ResetError() => Controller.SendCommand(PumpCommands.Reset);
-    public void PressureZero() => Controller.SendCommand(PumpCommands.PressureZero);
-    public void Service() => Controller.SendCommand(PumpCommands.Service);
+    public void Ready() => Controller.SendCommand(Commands.Initialize);
+    public void Purge() => Controller.SendCommand(Commands.Purge);
+    public void Run() => Controller.SendCommand(Commands.Gradient);
+    public void Stop() => Controller.SendCommand(Commands.Stop);
+    public void Halt() => Controller.SendCommand(Commands.Halt);
+    public void ResetError() => Controller.SendCommand(Commands.Reset);
+    public void PressureZero() => Controller.SendCommand(Commands.PressureZero);
+    public void Service() => Controller.SendCommand(Commands.Service);
 
     public event EventHandler<State>? StateUpdated;
     private void OnStateChanged(object? sender, PacketUpdatedEventArgs<Packets.State> e) => StateUpdated?.Invoke(this, State);

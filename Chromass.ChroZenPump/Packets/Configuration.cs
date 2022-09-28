@@ -10,7 +10,7 @@ namespace Chromass.ChroZenPump.Packets
     [StructLayout(LayoutKind.Sequential)]
     public struct Configuration
     {
-        public PumpModes btMode;       // 0: Quaternary, 1: Binary, 2:Isocratic 
+        public Modes btMode;       // 0: Quaternary, 1: Binary, 2:Isocratic 
                                        // read only
 
         public float fMaxFlow;

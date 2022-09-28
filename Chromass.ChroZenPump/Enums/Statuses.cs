@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum PumpStatus
+    public enum Statuses
     {
         Initializing,
         Ready,

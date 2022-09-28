@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum ExternalOutputs
+    public enum ExternalOutputs : byte
     {
 		Close, Open
     }

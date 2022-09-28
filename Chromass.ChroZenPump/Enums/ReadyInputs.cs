@@ -1,6 +1,6 @@
 ﻿namespace Chromass.ChroZenPump
 {
-    public enum ReadyInputs
+    public enum ReadyInputs : byte
     {
 		Low, High
     }

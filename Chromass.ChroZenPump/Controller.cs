@@ -7,7 +7,7 @@ namespace Chromass.ChroZenPump;
 
 public class Controller
 {
-    private ICommunicator tcp;
+    private readonly ICommunicator tcp;
     private TaskCompletionSource? taskGreeting;
 
     public bool IsConnected => tcp.IsConnected && State.Packet.btStatus != Statuses.Initializing;
@@ -129,7 +129,17 @@ public class Controller
 
     public async Task<bool> AskInformationAsync(int mSec)
     {
-        tcp.Send(Information.RequestPacket());
+        tcp.Send(new Header
+        {
+            Length = 24,
+            Id = 0,
+            Code = Information.Code,
+            Index = 0,
+            SlotOffset = 0,
+            SlotSize = 112
+
+        }.ToBytes());
+//        tcp.Send(Information.RequestPacket());
         return await Information.WaitAnUpdateFor(mSec);
     }
 

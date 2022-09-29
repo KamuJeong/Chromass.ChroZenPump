@@ -7,151 +7,150 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chromass.ChroZenPump.APIs
+namespace Chromass.ChroZenPump.APIs;
+
+public class Event : Base<Packets.Event>
 {
-    public class Event : Base<Packets.Event>
+    public Event() : this(new EventWrapper())
     {
-        public Event(EventWrapper wrapper, Action? action) : base(wrapper, action)
-        {
-            wrapper.Packet.btCurve = EventCurves.None;
-        }
+        
+    }
 
-        public Event(Event src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
+    public Event(EventWrapper wrapper) : base(wrapper, null)
+    {
+        wrapper.Packet.btCurve = EventCurves.None;
+    }
 
-        public float Time
+    public Event(Event src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
+
+    public float Time
+    {
+        get => Wrapper.Packet.fTime;
+        set
         {
-            get => Wrapper.Packet.fTime;
-            set
+            if (Wrapper.Packet.fTime != value)
             {
-                if (Wrapper.Packet.fTime != value)
-                {
-                    Wrapper.Packet.fTime = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fTime = value;
             }
         }
-        public SwitchOutputs Switch1
+    }
+    public SwitchOutputs Switch1
+    {
+        get => Wrapper.Packet.btSwitch1;
+        set
         {
-            get => Wrapper.Packet.btSwitch1;
-            set
+            if (Wrapper.Packet.btSwitch1 != value)
             {
-                if (Wrapper.Packet.btSwitch1 != value)
-                {
-                    Wrapper.Packet.btSwitch1 = value;
-                    CallAction();
-                }
+                Wrapper.Packet.btSwitch1 = value;
             }
         }
-        public SwitchOutputs Swicth2
+    }
+    public SwitchOutputs Swicth2
+    {
+        get => Wrapper.Packet.btSwitch2;
+        set
         {
-            get => Wrapper.Packet.btSwitch2;
-            set
+            if (Wrapper.Packet.btSwitch2 != value)
             {
-                if (Wrapper.Packet.btSwitch2 != value)
-                {
-                    Wrapper.Packet.btSwitch2 = value;
-                    CallAction();
-                }
+                Wrapper.Packet.btSwitch2 = value;
             }
         }
-        public MarkOutputs MarkOut
+    }
+    public MarkOutputs MarkOut
+    {
+        get => Wrapper.Packet.btMarkOut;
+        set
         {
-            get => Wrapper.Packet.btMarkOut;
-            set
+            if (Wrapper.Packet.btMarkOut != value)
             {
-                if (Wrapper.Packet.btMarkOut != value)
-                {
-                    Wrapper.Packet.btMarkOut = value;
-                    CallAction();
-                }
+                Wrapper.Packet.btMarkOut = value;
+            }
+        }
+    }
+}
+
+public class Gradient : Base<Packets.Event>
+{
+    public Gradient() : this(new EventWrapper())
+    {
+    
+    }
+
+    public Gradient(EventWrapper wrapper) : base(wrapper, null)
+    {
+        wrapper.Packet.btCurve = EventCurves.Lean;
+    }
+
+    public Gradient(Gradient src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
+
+    public float Time
+    {
+        get => Wrapper.Packet.fTime;
+        set
+        {
+            if (Wrapper.Packet.fTime != value)
+            {
+                Wrapper.Packet.fTime = value;
             }
         }
     }
 
-    public class Gradient : Base<Packets.Event>
+    public float Flow
     {
-        public Gradient(PacketWrapper<Packets.Event> wrapper, Action? action) : base(wrapper, action)
+        get => Wrapper.Packet.fFlowSpeed;
+        set
         {
-            wrapper.Packet.btCurve = EventCurves.Lean;
-        }
-
-        public Gradient(Gradient src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
-
-        public float Time
-        {
-            get => Wrapper.Packet.fTime;
-            set
+            if (Wrapper.Packet.fFlowSpeed != value)
             {
-                if (Wrapper.Packet.fTime != value)
-                {
-                    Wrapper.Packet.fTime = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fFlowSpeed = value;
             }
         }
+    }
 
-        public float Flow
+    public float A
+    {
+        get => Wrapper.Packet.fRatio[0];
+        set
         {
-            get => Wrapper.Packet.fFlowSpeed;
-            set
+            if (Wrapper.Packet.fRatio[0] != value)
             {
-                if (Wrapper.Packet.fFlowSpeed != value)
-                {
-                    Wrapper.Packet.fFlowSpeed = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fRatio[0] = value;
             }
         }
+    }
 
-        public float A
+    public float B
+    {
+        get => Wrapper.Packet.fRatio[1];
+        set
         {
-            get => Wrapper.Packet.fRatio[0];
-            set
+            if (Wrapper.Packet.fRatio[1] != value)
             {
-                if (Wrapper.Packet.fRatio[0] != value)
-                {
-                    Wrapper.Packet.fRatio[0] = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fRatio[1] = value;
             }
         }
+    }
 
-        public float B
+    public float C
+    {
+        get => Wrapper.Packet.fRatio[2];
+        set
         {
-            get => Wrapper.Packet.fRatio[1];
-            set
+            if (Wrapper.Packet.fRatio[2] != value)
             {
-                if (Wrapper.Packet.fRatio[1] != value)
-                {
-                    Wrapper.Packet.fRatio[1] = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fRatio[2] = value;
             }
         }
+    }
 
-        public float C
+    public float D
+    {
+        get => Wrapper.Packet.fRatio[3];
+        set
         {
-            get => Wrapper.Packet.fRatio[2];
-            set
+            if (Wrapper.Packet.fRatio[3] != value)
             {
-                if (Wrapper.Packet.fRatio[2] != value)
-                {
-                    Wrapper.Packet.fRatio[2] = value;
-                    CallAction();
-                }
-            }
-        }
-
-        public float D
-        {
-            get => Wrapper.Packet.fRatio[3];
-            set
-            {
-                if (Wrapper.Packet.fRatio[3] != value)
-                {
-                    Wrapper.Packet.fRatio[3] = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fRatio[3] = value;
             }
         }
     }

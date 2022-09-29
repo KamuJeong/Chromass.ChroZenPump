@@ -19,15 +19,15 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2">Information</TextBlock>
+        <TextBlock Grid.ColumnSpan="2" FontWeight="Bold" Margin="10, 5, 5, 5">Information</TextBlock>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Model" />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind ViewModel.Model, Mode=OneWay}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="10, 3, 3, 5" Text="Model" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="50, 3, 3, 5" Text="{x:Bind ViewModel.Model, Mode=OneWay}" />
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Version" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Bind ViewModel.Version, Mode=OneWay}" />
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="10, 3, 3, 5" Text="Version" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Margin="50, 3, 3, 5" Text="{x:Bind ViewModel.Version, Mode=OneWay}" />
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="SN" />
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Bind ViewModel.SN, Mode=OneWay}" />
+        <TextBlock Grid.Row="3" Grid.Column="0" Margin="10, 3, 3, 5" Text="SN" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="50, 3, 3, 5" Text="{x:Bind ViewModel.SN, Mode=OneWay}" />
     </Grid>
 </UserControl>

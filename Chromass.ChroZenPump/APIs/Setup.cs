@@ -44,7 +44,7 @@ namespace Chromass.ChroZenPump.APIs
 
         public IEnumerable<Gradient> Gradients
         {
-            get => _events.Take(Wrapper.Packet.nGradientCount).Select(e => new Gradient(e, _action));
+            get => _events.Take(Wrapper.Packet.nGradientCount).Select(e => new Gradient(e));
             set
             {
                 Wrapper.Packet.nGradientCount = (ushort)value.Count();
@@ -59,7 +59,7 @@ namespace Chromass.ChroZenPump.APIs
 
         public IEnumerable<Event> Events
         {
-            get => _events.Skip(100).Take(Wrapper.Packet.nEventCount).Select(e => new Event(e, _action));
+            get => _events.Skip(100).Take(Wrapper.Packet.nEventCount).Select(e => new Event(e));
             set
             {
                 Wrapper.Packet.nEventCount = (ushort)value.Count();

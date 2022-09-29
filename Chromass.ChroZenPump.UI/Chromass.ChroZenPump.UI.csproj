@@ -16,7 +16,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Views\ConnectionPage.xaml" />
-    <None Remove="Views\InformationView.xaml" />
+    <None Remove="Views\ControlView.xaml" />
+    <None Remove="Views\SystemView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,13 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\InformationView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\ConnectionPage.xaml">
+    <Page Update="Views\ControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

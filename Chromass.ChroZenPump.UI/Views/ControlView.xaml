@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="Chromass.ChroZenPump.UI.Views.ControlView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Chromass.ChroZenPump.UI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="using:System"
+    mc:Ignorable="d">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,3" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+
+
+        <TextBlock Grid.ColumnSpan="2" Margin="0, 5"
+                   FontWeight="Bold"
+                   FontSize="{StaticResource SectionFontSize}"
+                   TextDecorations="Underline">
+            Control
+        </TextBlock>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Status" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind ViewModel.Status, Mode=OneWay}" />
+    
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Error" />
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Bind ViewModel.Error, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Flow" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} mL/min', ViewModel.ActualFlow), Mode=OneWay}" />
+        <NumberBox Grid.Row="3" Grid.Column="2" 
+                   HorizontalAlignment="Left"
+                   LargeChange="1" SmallChange="0.1"
+                   Value="{x:Bind ViewModel.SettingFlow, Mode=TwoWay}" />
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Pressure" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} psi', ViewModel.Pressure), Mode=OneWay}" />
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="%A" />
+        <TextBlock Grid.Row="5" Grid.Column="1" Text="{x:Bind ViewModel.ActualA, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="%B" />
+        <TextBlock Grid.Row="6" Grid.Column="1" Text="{x:Bind ViewModel.ActualB, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="%C" />
+        <TextBlock Grid.Row="7" Grid.Column="1" Text="{x:Bind ViewModel.ActualC, Mode=OneWay}" />
+        
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="%D" />
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="{x:Bind ViewModel.ActualD, Mode=OneWay}" />
+    </Grid>
+</UserControl>

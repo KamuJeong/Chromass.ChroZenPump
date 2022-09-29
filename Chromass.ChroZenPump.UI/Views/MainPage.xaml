@@ -30,7 +30,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{x:Bind ViewModel.Close}">
-                Close
+                Disconnect
             </Button>
         </Grid>
 
@@ -42,9 +42,13 @@
 
         </local:ConnectionPage>
 
-        <Grid Grid.Row="1"
-            Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
-            <local:InformationView ViewModel="{x:Bind ViewModel.APIViewModel.InformationViewModel}" />
-        </Grid>
+        <StackPanel Grid.Row="1">
+            <Grid Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
+                <local:SystemView ViewModel="{x:Bind ViewModel.APIViewModel.SystemViewModel}" />
+            </Grid>
+            <Grid Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
+                <local:ControlView ViewModel="{x:Bind ViewModel.APIViewModel.ControlViewModel}" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </Page>

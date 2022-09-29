@@ -20,16 +20,23 @@ public class APIViewModel : ObservableObject
         get; init;
     }
 
-    public InformationViewModel InformationViewModel
+    public SystemViewModel SystemViewModel
     {
         get; init;
     }
+
+    public ControlViewModel ControlViewModel
+    {
+
+        get; init;
+    }
+
     public APIViewModel(API api)
     {
         API = api;
 
         ConnectionViewModel = new ConnectionViewModel(this);
-        InformationViewModel = new InformationViewModel(this);
-
+        SystemViewModel = new SystemViewModel(this);
+        ControlViewModel = new ControlViewModel(this);
     }
 }

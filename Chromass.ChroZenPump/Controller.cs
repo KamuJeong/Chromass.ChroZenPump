@@ -201,6 +201,8 @@ public class Controller
         {
             tcp.Send(Events[i + 100].SendPacket(index: i + 100));
         }
+
+        SendCommand(Commands.Initialize);
     }
 
     public void SendCalibration()

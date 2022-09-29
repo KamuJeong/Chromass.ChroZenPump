@@ -6,66 +6,100 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chromass.ChroZenPump.APIs
+namespace Chromass.ChroZenPump.APIs;
+
+public class Configuration : Base<Packets.Configuration>
 {
-    public class Configuration : Base<Packets.Configuration>
+    public Configuration(ConfigurationWrapper packet, Action? action) : base(packet, action) { }
+    public Configuration(Configuration src) : base(new ConfigurationWrapper { Packet = src.Wrapper.Packet }, null) { }
+
+    public Modes Mode => Wrapper.Packet.btMode;
+
+    public double MaxSettingFlowLimit
     {
-        public Configuration(ConfigurationWrapper packet, Action? action) : base(packet, action) { }
-        public Configuration(Configuration src) : base(new ConfigurationWrapper { Packet = src.Wrapper.Packet }, null) { }
-
-        public Modes Mode => Wrapper.Packet.btMode;
-        
-        public float MaxFlowLimit
+        get => Math.Round(Wrapper.Packet.fMaxFlow, 2);
+        set
         {
-            get => Wrapper.Packet.fMaxFlow;
-            set
+            if (Math.Round(Wrapper.Packet.fMaxFlow, 2) != value)
             {
-                if (Wrapper.Packet.fMaxFlow != value)
-                {
-                    Wrapper.Packet.fMaxFlow = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fMaxFlow = (float)value;
+                CallAction();
             }
         }
-        
-        public float MaxPressureLimit
+    }
+
+    public double MaxSettingPressureLimit
+    {
+        get => Math.Round(Wrapper.Packet.fMaxPressure);
+        set
         {
-            get => Wrapper.Packet.fMaxPressure;
-            set
+            if (Math.Round(Wrapper.Packet.fMaxPressure) != value)
             {
-                if(Wrapper.Packet.fMaxPressure != value)
-                {
-                    Wrapper.Packet.fMaxPressure = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fMaxPressure = (float)value;
+                CallAction();
             }
         }
+    }
 
-        public float HeadVolume => Wrapper.Packet.fHeadVolume;
+    public double HeadVolume => Math.Round(Wrapper.Packet.fHeadVolume, 3);
 
-        public float FlowCalibrationOffset
+    public double FlowCalibrationOffset
+    {
+        get => Math.Round(Wrapper.Packet.fFlowCalOffset1, 3);
+        set
         {
-            get => Wrapper.Packet.fFlowCalOffset1;
-            set
+            if (Math.Round(Wrapper.Packet.fFlowCalOffset1, 3) != value)
             {
-                if (Wrapper.Packet.fFlowCalOffset1 != value)
-                {
-                    Wrapper.Packet.fFlowCalOffset1 = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fFlowCalOffset1 = (float)value;
+                CallAction();
             }
         }
+    }
 
-        public float PressureCalibrationFactor
+    public double PressureCalibrationFactor
+    {
+        get => Math.Round(Wrapper.Packet.fZeroBalance1, 3);
+        set
         {
-            get => Wrapper.Packet.fZeroBalance1;
-            set
+            if (Math.Round(Wrapper.Packet.fZeroBalance1, 3) != value)
             {
-                if(Wrapper.Packet.fZeroBalance1 != value)
-                {
-                    Wrapper.Packet.fZeroBalance1 = value;
-                    CallAction();
-                }
+                Wrapper.Packet.fZeroBalance1 = (float)value;
+                CallAction();
+            }
+        }
+    }
+
+    public bool IsRinsePumpEnabled
+    {
+        get => Wrapper.Packet.btRinsePumpOnOff != 0;
+        set
+        {
+            if ((Wrapper.Packet.btRinsePumpOnOff != 0) != value)
+            {
+                Wrapper.Packet.btRinsePumpOnOff = (byte)(value ? 1 : 0);
+            }
+        }
+    }
+
+    public bool IsBuzzerEnabled
+    {
+        get => Wrapper.Packet.btBuzzerEnable != 0;
+        set
+        {
+            if ((Wrapper.Packet.btBuzzerEnable != 0) != value)
+            {
+                Wrapper.Packet.btBuzzerEnable = (byte)(value ? 1 : 0);
+            }
+        }
+    }
+    public bool IsDegassorEnabled
+    {
+        get => Wrapper.Packet.btDegassorOnOff != 0;
+        set
+        {
+            if ((Wrapper.Packet.btDegassorOnOff != 0) != value)
+            {
+                Wrapper.Packet.btDegassorOnOff = (byte)(value ? 1 : 0);
             }
         }
     }

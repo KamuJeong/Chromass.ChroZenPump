@@ -9,46 +9,62 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ConnectionStates">
+                <VisualState x:Name="NotConnected" />
+                <VisualState x:Name="Connected">
+                    <Storyboard x:Name="ConnectionPageAnimation">
+                        <DoubleAnimation From="1"
+                                 To="0"
+                                 Duration="0:0:1.5"
+                                 Storyboard.TargetName="ConnectionPage"
+                                 Storyboard.TargetProperty="Opacity" />
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainView"
+                                               Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:1.5"
+                                            Value="Visible" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <Grid x:Name="MainView"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Grid
-            Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock x:Uid="Main_Title"
+                <TextBlock x:Uid="Main_Title"
                        Style="{StaticResource PageTitleStyle}"
                        Margin="10"/>
 
-            <Button Grid.Column="1" 
+                <Button Grid.Column="1" 
                     Margin="10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Command="{x:Bind ViewModel.Close}">
-                Disconnect
-            </Button>
+                    Disconnect
+                </Button>
+            </Grid>
+
+            <StackPanel Grid.Row="1">
+                <local:SystemView ViewModel="{x:Bind ViewModel.APIViewModel.SystemViewModel}" />
+                <local:ControlView ViewModel="{x:Bind ViewModel.APIViewModel.ControlViewModel}" />
+            </StackPanel>
         </Grid>
 
-        <local:ConnectionPage Grid.Row="1"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              ViewModel="{x:Bind ViewModel.APIViewModel.ConnectionViewModel}"
-                              Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsVisible, Mode=OneWay}">
-
+        <local:ConnectionPage x:Name="ConnectionPage"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              ViewModel="{x:Bind ViewModel.APIViewModel.ConnectionViewModel}">
         </local:ConnectionPage>
-
-        <StackPanel Grid.Row="1">
-            <Grid Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
-                <local:SystemView ViewModel="{x:Bind ViewModel.APIViewModel.SystemViewModel}" />
-            </Grid>
-            <Grid Visibility="{x:Bind ViewModel.APIViewModel.ConnectionViewModel.IsConnected, Mode=OneWay}">
-                <local:ControlView ViewModel="{x:Bind ViewModel.APIViewModel.ControlViewModel}" />
-            </Grid>
-        </StackPanel>
     </Grid>
 </Page>

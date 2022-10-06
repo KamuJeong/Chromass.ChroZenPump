@@ -35,10 +35,8 @@ public class Setup : Base<Packets.Setup>
 
         if (src is Setup setup)
         {
-            foreach (var (d, s) in Enumerable.Zip(_events, setup._events))
-            {
-                d.Packet = s.Packet;
-            }
+            Gradients = setup.Gradients;
+            Events = setup.Events;
         }
     }
 

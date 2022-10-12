@@ -23,14 +23,14 @@ public class Event : Base<Packets.Event>
 
     public Event(Event src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
 
-    public float Time
+    public double Time
     {
-        get => Wrapper.Packet.fTime;
+        get => Math.Round(Wrapper.Packet.fTime, 2);
         set
         {
-            if (Wrapper.Packet.fTime != value)
+            if (Math.Round(Wrapper.Packet.fTime, 2) != value)
             {
-                Wrapper.Packet.fTime = value;
+                Wrapper.Packet.fTime = (float)value;
             }
         }
     }
@@ -83,60 +83,60 @@ public class Gradient : Base<Packets.Event>
 
     public Gradient(Gradient src) : base(new EventWrapper { Packet = src.Wrapper.Packet }, null) { }
 
-    public float Time
+    public double Time
     {
-        get => Wrapper.Packet.fTime;
+        get => Math.Round(Wrapper.Packet.fTime, 2);
         set
         {
-            if (Wrapper.Packet.fTime != value)
+            if (Math.Round(Wrapper.Packet.fTime, 2) != value)
             {
-                Wrapper.Packet.fTime = value;
+                Wrapper.Packet.fTime = (float)value;
             }
         }
     }
 
-    public float Flow
+    public double Flow
     {
-        get => Wrapper.Packet.fFlowSpeed;
+        get => Math.Round(Wrapper.Packet.fFlowSpeed, 3);
         set
         {
-            if (Wrapper.Packet.fFlowSpeed != value)
+            if (Math.Round(Wrapper.Packet.fFlowSpeed, 3) != value)
             {
-                Wrapper.Packet.fFlowSpeed = value;
+                Wrapper.Packet.fFlowSpeed = (float)value;
             }
         }
     }
 
-    public float A
+    public int A
     {
-        get => Wrapper.Packet.fRatio[0];
+        get => (int)Math.Round(Wrapper.Packet.fRatio[0], 0);
         set
         {
-            if (Wrapper.Packet.fRatio[0] != value)
+            if ((int)Math.Round(Wrapper.Packet.fRatio[0], 0) != value)
             {
                 Wrapper.Packet.fRatio[0] = value;
             }
         }
     }
 
-    public float B
+    public int B
     {
-        get => Wrapper.Packet.fRatio[1];
+        get => (int)Math.Round(Wrapper.Packet.fRatio[1], 0);
         set
         {
-            if (Wrapper.Packet.fRatio[1] != value)
+            if ((int)Math.Round(Wrapper.Packet.fRatio[1], 0) != value)
             {
                 Wrapper.Packet.fRatio[1] = value;
             }
         }
     }
 
-    public float C
+    public int C
     {
-        get => Wrapper.Packet.fRatio[2];
+        get => (int)Math.Round(Wrapper.Packet.fRatio[2], 0);
         set
         {
-            if (Wrapper.Packet.fRatio[2] != value)
+            if ((int)Math.Round(Wrapper.Packet.fRatio[2], 0) != value)
             {
                 Wrapper.Packet.fRatio[2] = value;
             }
@@ -145,10 +145,10 @@ public class Gradient : Base<Packets.Event>
 
     public float D
     {
-        get => Wrapper.Packet.fRatio[3];
+        get => (int)Math.Round(Wrapper.Packet.fRatio[3], 0);
         set
         {
-            if (Wrapper.Packet.fRatio[3] != value)
+            if ((int)Math.Round(Wrapper.Packet.fRatio[3], 0) != value)
             {
                 Wrapper.Packet.fRatio[3] = value;
             }

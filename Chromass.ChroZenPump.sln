@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chromass.ChroZenPump", "Chr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationContextTestHelper", "SynchronizationContextTestHelper\SynchronizationContextTestHelper.csproj", "{12C6F509-BC85-4A49-8BE1-1DDDE7865125}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chromass.ChroZenPump.Tests", "Chromass.ChroZenPump.Tests\Chromass.ChroZenPump.Tests.csproj", "{5BD3D076-572D-45FA-9C0C-9C3991DC186C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chromass.ChroZenPump.Tests", "Chromass.ChroZenPump.Tests\Chromass.ChroZenPump.Tests.csproj", "{5BD3D076-572D-45FA-9C0C-9C3991DC186C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chromass.ChroZenPump.UI", "Chromass.ChroZenPump.UI\Chromass.ChroZenPump.UI.csproj", "{FEA9E2D3-F32D-4BE4-A838-809054FD6715}"
 EndProject
@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CDS.Chromass.ChroZenPump", "CDS.Chromass.ChroZenPump\CDS.Chromass.ChroZenPump.csproj", "{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,6 +120,22 @@ Global
 		{C7709135-0B9B-46F0-877E-B5B0A20EA85B}.Release|x64.Build.0 = Release|x64
 		{C7709135-0B9B-46F0-877E-B5B0A20EA85B}.Release|x86.ActiveCfg = Release|x86
 		{C7709135-0B9B-46F0-877E-B5B0A20EA85B}.Release|x86.Build.0 = Release|x86
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|arm64.Build.0 = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|arm64.ActiveCfg = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|arm64.Build.0 = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|x64.Build.0 = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE32A09D-9B7D-4BF9-8C35-7742E2D1941E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

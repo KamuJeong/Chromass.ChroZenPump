@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="CDS.Chromass.ChroZenPump.Views.MonitorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CDS.Chromass.ChroZenPump.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="using:System"
+    xmlns:api="using:Chromass.ChroZenPump"
+    mc:Ignorable="d">
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="PumpState">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="Error">
+                    <VisualState.Setters>
+                        <Setter Target="ErrorRow.Height" Value="auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Run">
+                    <VisualState.Setters>
+                        <Setter Target="RunTimeRow.Height" Value="auto" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="0" x:Name="ErrorRow"/>
+            <RowDefinition Height="0" x:Name="RunTimeRow" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Status" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{x:Bind ViewModel.Status, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{x:Bind api:ErrorsExtension.Detail(ViewModel.Error) , Mode=OneWay}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} min', ViewModel.ElapsedTime), Mode=OneWay}" />
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Flow" />
+        <TextBlock Grid.Row="3" Grid.Column="1"  Text="{x:Bind sys:String.Format('{0} mL/min', ViewModel.Flow), Mode=OneWay}" />
+        
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Pressure" />
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} psi', ViewModel.Pressure), Mode=OneWay}" />
+    </Grid>
+</UserControl>

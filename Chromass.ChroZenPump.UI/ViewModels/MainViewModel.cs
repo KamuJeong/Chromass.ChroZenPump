@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using CDS.Chromass.ChroZenPump;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -6,14 +7,20 @@ namespace Chromass.ChroZenPump.UI.ViewModels;
 
 public class MainViewModel : ObservableRecipient
 {
-    public APIViewModel APIViewModel    
+    public ChroZenPumpDevice Device
     {
         get; init;
     }
 
-    public MainViewModel(APIViewModel apiViewModel)
+    public APIViewModel APIViewModel    
     {
-        APIViewModel = apiViewModel;
+        get; set;
+    }
+
+    public MainViewModel()
+    {
+        Device = new ChroZenPumpDevice(null, null);
+        APIViewModel = new APIViewModel(Device.API);
 
         Close = new RelayCommand(CloseExecute);
     }

@@ -37,11 +37,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CDS.Chromass.ChroZenPump\CDS.Chromass.ChroZenPump.csproj" />
     <ProjectReference Include="..\Chromass.ChroZenPump.UI.Core\Chromass.ChroZenPump.UI.Core.csproj" />
     <ProjectReference Include="..\Chromass.ChroZenPump\Chromass.ChroZenPump.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="CDS.Core">
+      <HintPath>..\..\ChroZen.CDS.Core\CDS.InstrumentModel\bin\Debug\net6.0\CDS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CDS.InstrumentModel">
+      <HintPath>..\..\ChroZen.CDS.Core\CDS.InstrumentModel\bin\Debug\net6.0\CDS.InstrumentModel.dll</HintPath>
+    </Reference>
     <Reference Include="ChromassProtocol">
       <HintPath>..\..\ChroZen.CDS.Core\ChromassProtocol\bin\Debug\net6.0\ChromassProtocol.dll</HintPath>
     </Reference>

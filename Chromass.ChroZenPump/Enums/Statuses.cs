@@ -4,7 +4,7 @@
     {
         Initializing,
         Ready,
-        Gradient,
+        Run,
         Pressure,
         Diagnosis,
         Halt,

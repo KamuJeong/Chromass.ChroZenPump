@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CDS.Core;
 using CDS.InstrumentModel;
 using Communicator;
+using Microsoft.UI.Xaml.Controls;
+using Chromass.ChroZenPump;
+using Chromass.ChroZenPump.APIs;
 
-namespace Chromass.ChroZenPump;
-public class ChroZenPump : Device
+namespace CDS.Chromass.ChroZenPump;
+
+[Refer("Monitor", typeof(CDS.Chromass.ChroZenPump.Views.MonitorView))]
+public class ChroZenPumpDevice : Device
 {
     public API API
     {
         get; private set;
     }
 
-    public ChroZenPump(ModelBase? parent, string? name) : base(parent, name)
+    public ChroZenPumpDevice(ModelBase? parent, string? name) : base(parent, name)
     {
         API = new API(new Tcp());
     }
@@ -48,13 +54,13 @@ public class ChroZenPump : Device
     public override void GetMethod(IMethod? method)
     {
         method?.SetMethod(this,
-            new Method(new APIs.Information(API.Information),
-                        new APIs.Configuration(API.Configuration),
-                        new APIs.Setup(API.Setup))
+            new Method(new Information(API.Information),
+                        new Configuration(API.Configuration),
+                        new Setup(API.Setup))
             );
     }
 
-    public override bool SetMethod(IMethod? method)
+    protected override bool SendMethod(IMethod? method)
     {
         if (method?.GetMethod(this) is Method m)
         {
@@ -64,25 +70,17 @@ public class ChroZenPump : Device
         return false;
     }
 
-    protected override bool SendMethod()
+    protected async override Task<bool> LoadMethodAsync(IMethod? method)
     {
-        API.Setup.CallAction();
-        return true;
-    }
-
-    protected async override Task<bool> LoadMethodAsync()
-    {
-        return await API.Controller.AskSetupAsync(1000);
-    }
-
-    protected override void CheckReadyStatus()
-    {
-        if (new[] { DeviceStatus.NotReady, DeviceStatus.Ready }.Contains(Status))
+        if (await API.Controller.AskSetupAsync(1000))
         {
-            Status = (API.State.Flow > 0.0 && API.Setup.Flow == API.State.Flow) ?
-                DeviceStatus.Ready : DeviceStatus.NotReady;
+            GetMethod(method);
+            return true;
         }
+        return false;
     }
+
+    protected override bool CheckReadyStatus() => API.State.Flow > 0.0 && API.Setup.Flow == API.State.Flow;
     
     protected override void Halt() => API.Halt();
     protected override bool Ready()

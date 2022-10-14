@@ -60,13 +60,13 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
-            services.AddTransient<ICommunicator, Tcp>();
-            services.AddTransient<API>();
+//            services.AddTransient<ICommunicator, Tcp>();
+//            services.AddTransient<API>();
 
             // Views and ViewModels
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
-            services.AddTransient<APIViewModel>();
+//            services.AddTransient<APIViewModel>();
 
             // Configuration
         }).

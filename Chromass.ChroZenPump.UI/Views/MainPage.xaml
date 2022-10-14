@@ -55,7 +55,7 @@
                 </Button>
             </Grid>
 
-            <StackPanel Grid.Row="1">
+            <StackPanel x:Name="ViewStack" Grid.Row="1">
                 <local:SystemView ViewModel="{x:Bind ViewModel.APIViewModel.SystemViewModel}" />
                 <local:ControlView ViewModel="{x:Bind ViewModel.APIViewModel.ControlViewModel}" />
             </StackPanel>

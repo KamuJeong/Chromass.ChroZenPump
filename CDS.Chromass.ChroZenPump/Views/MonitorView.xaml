@@ -48,7 +48,7 @@
         <TextBlock Grid.Row="2" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} min', ViewModel.ElapsedTime), Mode=OneWay}" />
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Flow" />
-        <TextBlock Grid.Row="3" Grid.Column="1"  Text="{x:Bind sys:String.Format('{0} mL/min', ViewModel.Flow), Mode=OneWay}" />
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="{x:Bind ViewModel.FlowDesc, Mode=OneWay}" />
         
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Pressure" />
         <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Bind sys:String.Format('{0} psi', ViewModel.Pressure), Mode=OneWay}" />

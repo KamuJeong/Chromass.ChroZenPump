@@ -9,6 +9,7 @@ using CDS.InstrumentModel;
 using Chromass.ChroZenPump;
 using Chromass.ChroZenPump.APIs;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
 public class MonitorViewModel : ObservableObject
@@ -27,7 +28,28 @@ public class MonitorViewModel : ObservableObject
 
         Device = (ChroZenPumpDevice)device;
 
+        Device.API.MessageReceived += API_MessageReceived;
         Device.API.StateUpdated += API_StateUpdated;
+    }
+
+    private string visualState = "Normal";
+    public string VisualState
+    {
+        get => visualState;
+        private set => SetProperty(ref visualState, value);
+    }
+
+    private void API_MessageReceived(object? sender, Message e)
+    {
+        if (e.Type == MessageTypes.State)
+        {
+            switch ((Statuses)e.NewValue)
+            {
+                case Statuses.Error:    VisualState = "Error";  break;
+                case Statuses.Run:      VisualState = "Run";    break;
+                default:                VisualState = "Normal";  break;
+            }
+        }
     }
 
     private void API_StateUpdated(object? sender, State e)
@@ -42,10 +64,12 @@ public class MonitorViewModel : ObservableObject
     public double ElapsedTime => Device.API.State.ElapsedTime;
 
     public double Flow => Device.API.State.Flow;
-    public double A => Device.API.State.A;
-    public double B => Device.API.State.B;
-    public double C => Device.API.State.C;
-    public double D => Device.API.State.D;
+    public int A => Device.API.State.A;
+    public int B => Device.API.State.B;
+    public int C => Device.API.State.C;
+    public int D => Device.API.State.D;
+
+    public string FlowDesc => $"{Flow} mL/min [{A}:{B}:{C}:{D}]";
 
     public double Pressure => Device.API.State.Pressure;
 }

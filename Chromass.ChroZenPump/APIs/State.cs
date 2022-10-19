@@ -22,10 +22,10 @@ public class State : Base<Packets.State>
     public double ElapsedTime => Math.Round(Wrapper.Packet.fElapseTime, 1);
     
     public double Flow => Math.Round(Wrapper.Packet.fFlowSpeed, 3);
-    public double A => Math.Round(Wrapper.Packet.fRatio[0], 1);
-    public double B => Math.Round(Wrapper.Packet.fRatio[1], 1);
-    public double C => Math.Round(Wrapper.Packet.fRatio[2], 1);
-    public double D => Math.Round(Wrapper.Packet.fRatio[3], 1);
+    public int A => (int)Math.Round(Wrapper.Packet.fRatio[0], 0);
+    public int B => (int)Math.Round(Wrapper.Packet.fRatio[1], 0);
+    public int C => (int)Math.Round(Wrapper.Packet.fRatio[2], 0);
+    public int D => (int)Math.Round(Wrapper.Packet.fRatio[3], 0);
 
     public double Pressure => Math.Round(Wrapper.Packet.fPressure, 1);
 }

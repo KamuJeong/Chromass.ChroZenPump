@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using CDS.Core;
 using CDS.InstrumentModel;
 using Chromass.ChroZenPump.UI.ViewModels;
 using Microsoft.UI.Xaml;
@@ -45,9 +46,7 @@ public sealed partial class MainPage : Page
 
             if (monitor is null)
             {
-                var viewType = ViewModel.Device.GetType().GetCustomAttributes<ReferAttribute>().Where(a => a.Key == "Monitor").First().Type;
-                var view = viewType?.GetConstructor(new Type[] { typeof(Device) }).Invoke(new object[] { ViewModel.Device });
-                if (view is UIElement ele)
+                if (ViewModel.Device.CreateReferInstance("Monitor") is UIElement ele)
                 {
                     ViewStack.Children.Add(ele);
                     monitor = ele;

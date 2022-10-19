@@ -166,6 +166,9 @@ public class Controller
                     return false;
             }
 
+            if(Setup.Packet.nEventCount > 0 || Setup.Packet.nGradientCount > 0)
+                Setup.Assemble(this, Setup.Binary, 0, 0);
+
             return true;
         }
         return false;

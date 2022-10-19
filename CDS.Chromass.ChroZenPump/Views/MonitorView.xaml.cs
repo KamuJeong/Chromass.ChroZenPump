@@ -29,24 +29,19 @@ public sealed partial class MonitorView : UserControl
 
         this.InitializeComponent();
 
-        ViewModel.Device.API.MessageReceived += API_MessageReceived;
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
-    private void API_MessageReceived(object? sender, global::Chromass.ChroZenPump.APIs.Message e)
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.Type == MessageTypes.State)
+        if (e.PropertyName == "VisualState")
         {
-            switch ((Statuses)e.NewValue)
-            {
-                case Statuses.Error:    VisualStateManager.GoToState(this, "Error", false); break;
-                case Statuses.Run:      VisualStateManager.GoToState(this, "Run", false); break;
-                default:                VisualStateManager.GoToState(this, "Normal", false); break;
-            }
+            VisualStateManager.GoToState(this, ViewModel.VisualState, false);
         }
     }
 
-    private MonitorViewModel? ViewModel
+    private MonitorViewModel ViewModel
     {
-        get;
+        get; init;
     }
 }

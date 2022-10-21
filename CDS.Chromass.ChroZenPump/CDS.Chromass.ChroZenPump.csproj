@@ -8,6 +8,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\ControllerView.xaml" />
+    <None Remove="Views\Controller\ConnectionView.xaml" />
+    <None Remove="Views\Controller\ControlView.xaml" />
+    <None Remove="Views\Controller\SystemView.xaml" />
     <None Remove="Views\MonitorView.xaml" />
   </ItemGroup>
 
@@ -37,7 +41,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Views\Controller\ControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Controller\SystemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\ControllerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Views\MonitorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Controller\ConnectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

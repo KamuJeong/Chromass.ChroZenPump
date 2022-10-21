@@ -16,7 +16,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace CDS.Chromass.ChroZenPump.ViewModels;
 
 
-public class MonitorViewModel : ObservableObject
+public class MonitorViewModel : ObservableObject, IDisposable
 {
     private class MonitorViewModelSubscriber : WeakEventSubscriber<MonitorViewModel, ChroZenPumpDevice>
     {
@@ -67,6 +67,8 @@ public class MonitorViewModel : ObservableObject
         get; init;
     }
 
+    private readonly MonitorViewModelSubscriber monitorViewModelSubscriber;
+
     public MonitorViewModel(Device device)
     {
         if (device is not ChroZenPumpDevice)
@@ -76,7 +78,8 @@ public class MonitorViewModel : ObservableObject
 
         Device = (ChroZenPumpDevice)device;
 
-        new MonitorViewModelSubscriber(this, Device).SubScribe();
+        monitorViewModelSubscriber = new MonitorViewModelSubscriber(this, Device);
+        monitorViewModelSubscriber.SubScribe();
     }
 
     private string visualState = "Normal";
@@ -101,4 +104,6 @@ public class MonitorViewModel : ObservableObject
     public string FlowDesc => $"{Flow} mL/min [{A}:{B}:{C}:{D}]";
 
     public double Pressure => Device.API.State.Pressure;
+
+    public void Dispose() => monitorViewModelSubscriber.Unsubscribe();
 }

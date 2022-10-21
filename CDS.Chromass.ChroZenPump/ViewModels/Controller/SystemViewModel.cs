@@ -5,22 +5,61 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Chromass.ChroZenPump;
+using CDS.Core;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
 
-public class SystemViewModel : ObservableObject
+public class SystemViewModel : ObservableObject, IDisposable
 {
+    private class SystemViewModelSubscriber : WeakEventSubscriber<SystemViewModel, ChroZenPumpDevice>
+    {
+        public SystemViewModelSubscriber(SystemViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
+        {
+        }
+
+        public override void SubScribe()
+        {
+            Publisher.API.Controller.Information.Updated += Information_Updated;
+            Publisher.API.Controller.Configuration.Updated += Configuration_Updated;
+        }
+
+        private void Configuration_Updated(object? sender, ChromassProtocol.PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Configuration> e)
+        {
+            if (GetSubscriber() is SystemViewModel subscriber)
+            {
+                subscriber.OnPropertyChanged(string.Empty);
+            }
+        }
+
+        private void Information_Updated(object? sender, ChromassProtocol.PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Information> e)
+        {
+            if (GetSubscriber() is SystemViewModel subscriber)
+            {
+                subscriber.OnPropertyChanged(string.Empty);
+            }
+        }
+
+        public override void Unsubscribe()
+        {
+            Publisher.API.Controller.Information.Updated -= Information_Updated;
+            Publisher.API.Controller.Configuration.Updated -= Configuration_Updated;
+        }
+    }
+
+
     public ControllerViewModel Controller
     {
         get; init;
     }
 
+    private readonly SystemViewModelSubscriber systemViewModelSubscriber;
+
     public SystemViewModel(ControllerViewModel controller)
     {
         Controller = controller;
 
-        Controller.Device.API.Controller.Information.Updated += (s, e) => OnPropertyChanged(string.Empty);
-        Controller.Device.API.Controller.Configuration.Updated += (s, e) => OnPropertyChanged(string.Empty);
+        systemViewModelSubscriber = new SystemViewModelSubscriber(this, Controller.Device);
+        systemViewModelSubscriber.SubScribe();
     }
 
     public string? Model => Controller.Device.API.Information.Model;
@@ -74,4 +113,6 @@ public class SystemViewModel : ObservableObject
         set => SetProperty(Controller.Device.API.Configuration.IsDegassorEnabled, value, Controller.Device.API,
             (api, v) => api.Configuration.IsDegassorEnabled = v);
     }
+
+    public void Dispose() => systemViewModelSubscriber.Unsubscribe();
 }

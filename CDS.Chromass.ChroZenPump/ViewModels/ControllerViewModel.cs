@@ -7,7 +7,7 @@ using CDS.InstrumentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
-public class ControllerViewModel : ObservableObject
+public class ControllerViewModel : ObservableObject, IDisposable
 {
     public ChroZenPumpDevice Device
     {
@@ -41,5 +41,19 @@ public class ControllerViewModel : ObservableObject
         ConnectionViewModel = new ConnectionViewModel(this);
         SystemViewModel = new SystemViewModel(this);
         ControlViewModel = new ControlViewModel(this);
+    }
+
+    private string visualState = "NotConnected";
+    public string VisualState
+    {
+        get => visualState;
+        internal set => SetProperty(ref visualState, value);
+    }
+
+    public void Dispose()
+    {
+        ConnectionViewModel.Dispose();
+        SystemViewModel.Dispose();
+        ControlViewModel.Dispose();
     }
 }

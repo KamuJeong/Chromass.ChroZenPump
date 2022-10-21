@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CDS.Core;
 using Chromass.ChroZenPump;
 using Chromass.ChroZenPump.APIs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,8 +14,42 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
-public class ConnectionViewModel : ObservableObject
+public class ConnectionViewModel : ObservableObject, IDisposable
 {
+    private class ConnectionViewModelSubscriber : WeakEventSubscriber<ConnectionViewModel, ChroZenPumpDevice>
+    {
+        public ConnectionViewModelSubscriber(ConnectionViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
+        {
+        }
+
+        public override void SubScribe()
+        {
+            Publisher.API.MessageReceived += API_MessageReceived;
+        }
+
+        private void API_MessageReceived(object? sender, MessageUpdatedEventArgs e)
+        {
+            if (GetSubscriber() is ConnectionViewModel subscriber)
+            {
+                if (e.Message.Type == MessageTypes.State)
+                {
+                    switch ((Statuses)e.Message.NewValue)
+                    {
+                        case Statuses.Initializing:     subscriber.VisualState = "NotConnected"; break;
+                        default:                        subscriber.VisualState = "Connected"; break;
+                    }
+                }
+            }
+        }
+
+        public override void Unsubscribe()
+        {
+            Publisher.API.MessageReceived -= API_MessageReceived;
+        }
+    }
+
+    private readonly ConnectionViewModelSubscriber connectionViewModelSubscriber;
+
     public ConnectionViewModel(ControllerViewModel controller)
     {
         Controller = controller;
@@ -24,30 +59,11 @@ public class ConnectionViewModel : ObservableObject
             Port = controller.Device.Uri.Port;
         }
 
-
-//        Controller.Device.API.MessageReceived += API_MessageReceived;
         Connect = new AsyncRelayCommand(ConnectExecuteAsync);
         Cancel = new RelayCommand(CancelExecute);
-    }
 
-    private string visualState = "NotConnected";
-    public string VisualState
-    {
-        get => visualState;
-        private set => SetProperty(ref visualState, value);
-    }
-
-
-    private void API_MessageReceived(object? sender, Message e)
-    {
-        if (e.Type == MessageTypes.State)
-        {
-            switch ((Statuses)e.NewValue)
-            {
-                case Statuses.Initializing: VisualState = "NotConnected"; break;
-                default: VisualState = "Connected"; break;
-            }
-        }
+        connectionViewModelSubscriber = new ConnectionViewModelSubscriber(this, controller.Device);
+        connectionViewModelSubscriber.SubScribe();
     }
 
     public ControllerViewModel Controller
@@ -76,16 +92,16 @@ public class ConnectionViewModel : ObservableObject
 
     private async Task ConnectExecuteAsync()
     {
-        VisualState = "Connecting";
+        Controller.VisualState = "Connecting";
 
         Controller.Device.Uri = new Uri($"tcp://{Address}:{Port}");
         if (await Controller.Device.ConnectAsync(CancellationToken.None))
         {
-            VisualState = "Connected";
+            Controller.VisualState = "Ready";
         }
         else
         {
-            VisualState = "NotConnected";
+            Controller.VisualState = "NotConnected";
         }
     }
 
@@ -97,6 +113,8 @@ public class ConnectionViewModel : ObservableObject
     private void CancelExecute()
     {
         Controller.Device.Disconnect();
-        VisualState = "NotConnected";
+        Controller.VisualState = "NotConnected";
     }
+
+    public void Dispose() => connectionViewModelSubscriber.Unsubscribe();
 }

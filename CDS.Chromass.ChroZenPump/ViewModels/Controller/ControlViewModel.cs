@@ -7,44 +7,101 @@ using Chromass.ChroZenPump.APIs;
 using Chromass.ChroZenPump;
 using ChromassProtocol;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CDS.Core;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
-public class ControlViewModel : ObservableObject
+public class ControlViewModel : ObservableObject, IDisposable
 {
+    private class ControlViewModelSubscriber : WeakEventSubscriber<ControlViewModel, ChroZenPumpDevice>
+    {
+        public ControlViewModelSubscriber(ControlViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
+        {
+        }
+
+        public override void SubScribe()
+        {
+            Publisher.API.StateUpdated += API_StateUpdated;
+            Publisher.API.Controller.Setup.Updated += Setup_Updated;
+        }
+
+        private void Setup_Updated(object? sender, PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Setup> e)
+        {
+            if (GetSubscriber() is ControlViewModel subscriber)
+            {
+                subscriber.OnPropertyChanged(string.Empty);
+            }
+        }
+
+        private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
+        {
+            if (GetSubscriber() is ControlViewModel subscriber)
+            {
+                subscriber.Status = e.State.Status;
+                subscriber.Error = e.State.Error;
+                subscriber.ElapsedTime = e.State.ElapsedTime;
+                subscriber.ActualFlow = e.State.Flow;
+                subscriber.Pressure = e.State.Pressure;
+                subscriber.ActualA = e.State.A;
+                subscriber.ActualB = e.State.B;
+                subscriber.ActualC = e.State.C;
+                subscriber.ActualD = e.State.D;
+            }
+        }
+
+        public override void Unsubscribe()
+        {
+            Publisher.API.StateUpdated -= API_StateUpdated;
+            Publisher.API.Controller.Setup.Updated -= Setup_Updated;
+        }
+    }
+
+
     public ControllerViewModel Controller
     {
         get; init;
     }
 
+    private readonly ControlViewModelSubscriber controlViewModelSubscriber;
+
     public ControlViewModel(ControllerViewModel controller)
     {
         Controller = controller;
 
-        //Controller.Device.API.StateUpdated += API_StateUpdated;
-        //Controller.Device.API.Setup.Wrapper.Updated += API_SetupUpdated;
+        controlViewModelSubscriber = new ControlViewModelSubscriber(this, Controller.Device);
+        controlViewModelSubscriber.SubScribe();
     }
 
-    private void API_SetupUpdated(object? sender, PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Setup> e)
-        => OnPropertyChanged(string.Empty);
+    public void Dispose() => controlViewModelSubscriber.Unsubscribe();
 
-    private void API_StateUpdated(object? sender, State e)
-    {
-        Status = e.Status;
-        Error = e.Error;
-        ElapsedTime = e.ElapsedTime;
-        ActualFlow = e.Flow;
-        Pressure = e.Pressure;
-        ActualA = e.A;
-        ActualB = e.B;
-        ActualC = e.C;
-        ActualD = e.D;
-    }
-
-    private Statuses status;    
+    private Statuses status;
     public Statuses Status
     {
         get => status;
-        private set => SetProperty(ref status, value);
+        private set
+        {
+            SetProperty(ref status, value);
+            switch (value)
+            {
+                case Statuses.Initializing:
+                    Controller.VisualState = "NotConnected";
+                    break;
+                case Statuses.Ready:
+                    Controller.VisualState = "Normal";
+                    break;
+                case Statuses.Service:
+                    Controller.VisualState = "Service";
+                    break;
+                case Statuses.Purge:
+                    Controller.VisualState = "Purge";
+                    break;
+                case Statuses.Error:
+                    Controller.VisualState = "Error";
+                    break;
+                default:
+                    Controller.VisualState = "Blocked";
+                    break;
+            }
+        }
     }
 
     private Errors error;
@@ -93,7 +150,7 @@ public class ControlViewModel : ObservableObject
     {
         get => Controller.Device.API.Setup.A;
         set => SetProperty(Controller.Device.API.Setup.A, value, Controller.Device.API,
-            (api, v) => 
+            (api, v) =>
             {
                 api.Setup.A = v;
             });

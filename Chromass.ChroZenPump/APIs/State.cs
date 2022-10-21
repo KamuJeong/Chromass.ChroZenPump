@@ -29,3 +29,15 @@ public class State : Base<Packets.State>
 
     public double Pressure => Math.Round(Wrapper.Packet.fPressure, 1);
 }
+
+public class StateUpdatedEventArgs : EventArgs
+{
+    public State State
+    {
+        get; init;
+    }
+    public StateUpdatedEventArgs(State state)
+    {
+        State = state;
+    }
+}

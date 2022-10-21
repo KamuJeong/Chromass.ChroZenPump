@@ -38,3 +38,15 @@ public class Message
         return "Unknown";
     }
 }
+
+public class MessageUpdatedEventArgs : EventArgs
+{
+    public Message Message
+    {
+        get; init;
+    }
+    public MessageUpdatedEventArgs(Message message)
+    {
+        Message = message;
+    }
+}

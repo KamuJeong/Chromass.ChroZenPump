@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,57 @@ using Chromass.ChroZenPump;
 using Chromass.ChroZenPump.APIs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
+
+
 public class MonitorViewModel : ObservableObject
 {
+    private class MonitorViewModelSubscriber : WeakEventSubscriber<MonitorViewModel, ChroZenPumpDevice>
+    {
+        public MonitorViewModelSubscriber(MonitorViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
+        {
+        }
+
+        public override void SubScribe()
+        {
+            Publisher.API.MessageReceived += API_MessageReceived;
+            Publisher.API.StateUpdated += API_StateUpdated;       
+        }
+
+        private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
+        {
+            if (GetSubscriber() is MonitorViewModel subscriber)
+            {
+                subscriber.OnPropertyChanged(String.Empty);
+            }
+        }
+
+        private void API_MessageReceived(object? sender, MessageUpdatedEventArgs e)
+        {
+            if (GetSubscriber() is MonitorViewModel subscriber)
+            {
+                if (e.Message.Type == MessageTypes.State)
+                {
+                    switch ((Statuses)e.Message.NewValue)
+                    {
+                        case Statuses.Error:    subscriber.VisualState = "Error"; break;
+                        case Statuses.Run:      subscriber.VisualState = "Run"; break;
+                        default:                subscriber.VisualState = "Normal"; break;
+                    }
+                }
+            }
+        }
+
+        public override void Unsubscribe()
+        {
+            Publisher.API.MessageReceived -= API_MessageReceived;
+            Publisher.API.StateUpdated -= API_StateUpdated;
+        }
+    }
+
+
     public ChroZenPumpDevice Device
     {
         get; init;
@@ -28,8 +76,7 @@ public class MonitorViewModel : ObservableObject
 
         Device = (ChroZenPumpDevice)device;
 
-        Device.API.MessageReceived += API_MessageReceived;
-        Device.API.StateUpdated += API_StateUpdated;
+        new MonitorViewModelSubscriber(this, Device).SubScribe();
     }
 
     private string visualState = "Normal";
@@ -37,24 +84,6 @@ public class MonitorViewModel : ObservableObject
     {
         get => visualState;
         private set => SetProperty(ref visualState, value);
-    }
-
-    private void API_MessageReceived(object? sender, Message e)
-    {
-        if (e.Type == MessageTypes.State)
-        {
-            switch ((Statuses)e.NewValue)
-            {
-                case Statuses.Error:    VisualState = "Error";  break;
-                case Statuses.Run:      VisualState = "Run";    break;
-                default:                VisualState = "Normal";  break;
-            }
-        }
-    }
-
-    private void API_StateUpdated(object? sender, State e)
-    {
-        OnPropertyChanged(String.Empty);
     }
 
     public Statuses Status => Device.API.State.Status;

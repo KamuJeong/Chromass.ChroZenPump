@@ -1,8 +1,12 @@
 using Communicator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SynchronizationContextTestHelper;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace Chromass.ChroZenPump.Tests
 {

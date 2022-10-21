@@ -25,16 +25,36 @@ public class API
     }
 
     public bool IsConnected => Controller.IsConnected;
-    public Task ConnectAsync(string ip, int port, CancellationToken token) => Controller.ConnectAsync(ip, port, token);
+    public Task ConnectAsync(string ip, int port, CancellationToken token)
+        => Controller.ConnectAsync(ip, port, token);
+
     public void Close() => Controller.Close();
 
-    public Controller Controller { get; init; }
+    public Controller Controller
+    {
+        get; init;
+    }
 
-    public Information Information { get; init; }
-    public Configuration Configuration { get; init; }
-    public Setup Setup { get; init; }
-    public State State { get; init; }
-    public Calibration Calibration { get; init; }
+    public Information Information
+    {
+        get; init;
+    }
+    public Configuration Configuration
+    {
+        get; init;
+    }
+    public Setup Setup
+    {
+        get; init;
+    }
+    public State State
+    {
+        get; init;
+    }
+    public Calibration Calibration
+    {
+        get; init;
+    }
 
     public void SetPurgeFlow(float flow, float a, float b, float c) => Controller.SendEvent(flow, a, b, c);
     public void SetServiceFlow(float flow, float a, float b, float c) => SetPurgeFlow(flow, a, b, c);
@@ -49,11 +69,11 @@ public class API
     public void PressureZero() => Controller.SendCommand(Commands.PressureZero);
     public void Service() => Controller.SendCommand(Commands.Service);
 
-    public event EventHandler<State>? StateUpdated;
-    private void OnStateChanged(object? sender, PacketUpdatedEventArgs<Packets.State> e) => StateUpdated?.Invoke(this, State);
+    public event EventHandler<StateUpdatedEventArgs>? StateUpdated;
+    private void OnStateChanged(object? sender, PacketUpdatedEventArgs<Packets.State> e)
+        => StateUpdated?.Invoke(this, new StateUpdatedEventArgs(State));
 
-    public event EventHandler<Message>? MessageReceived;
+    public event EventHandler<MessageUpdatedEventArgs>? MessageReceived;
     private void OnMessageReceived(object? sender, PacketUpdatedEventArgs<Packets.SelfMessage> e)
-                    => MessageReceived?.Invoke(this, new Message(e.Wrapper));
-
+        => MessageReceived?.Invoke(this, new MessageUpdatedEventArgs(new Message(e.Wrapper)));
 }

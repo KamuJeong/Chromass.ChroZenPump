@@ -29,9 +29,9 @@ public class ConnectionViewModel : ObservableObject
         get; init;
     }
 
-    private void API_StateUpdated(object? sender, State e)
+    private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
     {
-        if (new[] { Statuses.Initializing, Statuses.Halt }.Contains(e.Status))
+        if (new[] { Statuses.Initializing, Statuses.Halt }.Contains(e.State.Status))
         {
             OnPropertyChanged(nameof(IsConnected));
             OnPropertyChanged(nameof(IsVisible));

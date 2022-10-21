@@ -24,7 +24,8 @@ public class ConnectionViewModel : ObservableObject
             Port = controller.Device.Uri.Port;
         }
 
-        Controller.Device.API.MessageReceived += API_MessageReceived;
+
+//        Controller.Device.API.MessageReceived += API_MessageReceived;
         Connect = new AsyncRelayCommand(ConnectExecuteAsync);
         Cancel = new RelayCommand(CancelExecute);
     }

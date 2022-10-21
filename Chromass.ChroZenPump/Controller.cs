@@ -28,8 +28,6 @@ public class Controller
 
         for (var i = 0; i < Events.Length; i++)
             Events[i] = new EventWrapper();
-
-        tcp.PacketParsing += Tcp_PacketParsing;
     }
 
     private void Tcp_PacketParsing(object? sender, PacketParsingEventArgs e)
@@ -37,6 +35,7 @@ public class Controller
         if (e.IsClosed)
         {
             State.Assemble(this, new StateWrapper().Binary, 0, 0);
+            tcp.PacketParsing -= Tcp_PacketParsing;
         }
         else if (e.Buffer.Length >= 24)
         {
@@ -104,6 +103,8 @@ public class Controller
 
         if (tcp.IsConnected)
         {
+            tcp.PacketParsing += Tcp_PacketParsing;
+
             if (await GreetingAsync(2000))
             {
                 await AskInformationAsync(2000);
@@ -139,7 +140,6 @@ public class Controller
             SlotSize = 112
 
         }.ToBytes());
-//        tcp.Send(Information.RequestPacket());
         return await Information.WaitAnUpdateFor(mSec);
     }
 
@@ -249,6 +249,8 @@ public class Controller
     public void Close()
     {
         if (tcp.IsConnected)
+        {
             tcp.Close();
+        }
     }
 }

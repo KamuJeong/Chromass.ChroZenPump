@@ -20,8 +20,8 @@ public class ControlViewModel : ObservableObject
     {
         Controller = controller;
 
-        Controller.Device.API.StateUpdated += API_StateUpdated;
-        Controller.Device.API.Setup.Wrapper.Updated += API_SetupUpdated;
+        //Controller.Device.API.StateUpdated += API_StateUpdated;
+        //Controller.Device.API.Setup.Wrapper.Updated += API_SetupUpdated;
     }
 
     private void API_SetupUpdated(object? sender, PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Setup> e)

@@ -18,7 +18,9 @@ public class SystemViewModel : ObservableObject
     {
         APIViewModel = apiViewModel;
 
-        APIViewModel.API.Controller.Information.Updated += (s, e) => OnPropertyChanged(string.Empty);
+
+
+//        APIViewModel.API.Controller.Information.Updated += (s, e) => OnPropertyChanged(string.Empty);
     }
 
     public string? Model => APIViewModel.API.Information.Model;

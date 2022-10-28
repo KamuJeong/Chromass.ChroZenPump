@@ -7,7 +7,7 @@ using CDS.InstrumentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
-public class ControllerViewModel : ObservableObject, IDisposable
+public class ControllerViewModel : ObservableObject
 {
     public ChroZenPumpDevice Device
     {
@@ -48,12 +48,5 @@ public class ControllerViewModel : ObservableObject, IDisposable
     {
         get => visualState;
         internal set => SetProperty(ref visualState, value);
-    }
-
-    public void Dispose()
-    {
-        ConnectionViewModel.Dispose();
-        SystemViewModel.Dispose();
-        ControlViewModel.Dispose();
     }
 }

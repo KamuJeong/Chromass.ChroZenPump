@@ -266,3 +266,16 @@ public class Setup : Base<Packets.Setup>
     }
 
 }
+
+
+public class SetupUpdatedEventArgs : EventArgs
+{
+    public Setup Setup
+    {
+        get; init;
+    }
+    public SetupUpdatedEventArgs(Setup setup)
+    {
+        Setup = setup;
+    }
+}

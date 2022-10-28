@@ -1,4 +1,5 @@
-﻿using Chromass.ChroZenPump.Packets;
+﻿using System.Reflection.PortableExecutable;
+using Chromass.ChroZenPump.Packets;
 using Chromass.ChroZenPump.PacketWrappers;
 using ChromassProtocol;
 using Communicator;
@@ -35,6 +36,16 @@ public class Controller
         if (e.IsClosed)
         {
             State.Assemble(this, new StateWrapper().Binary, 0, 0);
+            SelfMessage.Assemble(this, new SelfMessageWrapper
+            {
+                Packet = new SelfMessage
+                {
+                    btMessage = MessageTypes.State,
+                    sOldValue = 0,
+                    sNewValue = (short)Statuses.Initializing,
+                    uErrorCode = 0
+                },     
+            }.Binary, 0, 0);
             tcp.PacketParsing -= Tcp_PacketParsing;
         }
         else if (e.Buffer.Length >= 24)

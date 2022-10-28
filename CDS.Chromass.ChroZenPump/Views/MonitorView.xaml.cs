@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,11 +22,11 @@ using Windows.Foundation.Collections;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace CDS.Chromass.ChroZenPump.Views;
-public sealed partial class MonitorView : UserControl, IDisposable
+public sealed partial class MonitorView : UserControl
 {
-    public MonitorViewModel ViewModel
+    public MonitorViewModel? ViewModel
     {
-        get; init;
+        get; private set;
     }
 
     public MonitorView(Device device)
@@ -34,16 +35,15 @@ public sealed partial class MonitorView : UserControl, IDisposable
 
         this.InitializeComponent();
 
-        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        new WeakEventSubscriber<MonitorView, PropertyChangedEventArgs>(this,
+            (s, e) =>
+            {
+                if (e.PropertyName == "VisualState")
+                {
+                    VisualStateManager.GoToState(this, ViewModel.VisualState, false);
+                }
+            },
+            h => ViewModel.PropertyChanged += new PropertyChangedEventHandler(h),
+            h => ViewModel.PropertyChanged -= new PropertyChangedEventHandler(h));
     }
-
-    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == "VisualState")
-        {
-            VisualStateManager.GoToState(this, ViewModel.VisualState, false);
-        }
-    }
-
-    public void Dispose() => ViewModel.Dispose();
 }

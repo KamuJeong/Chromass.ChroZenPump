@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CDS.Chromass.ChroZenPump.ViewModels;
+using CDS.Core;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -20,9 +22,41 @@ using Windows.Foundation.Collections;
 namespace CDS.Chromass.ChroZenPump.Views;
 public sealed partial class ConnectionView : UserControl
 {
+    private ConnectionViewModel? viewModel;
     public ConnectionViewModel? ViewModel
     {
-        get; internal set;
+        get => viewModel;
+        internal set
+        {
+            if (viewModel != value)
+            {
+                viewModel = value;
+                if (viewModel != null)
+                {
+                    new WeakEventSubscriber<ConnectionView, PropertyChangedEventArgs>(this,
+                        (s, e) =>
+                        {
+                            if (e.PropertyName == "VisualState")
+                            {
+                                if (viewModel.Controller.VisualState == "Connecting")
+                                {
+                                    VisualStateManager.GoToState(this, "Connecting", false);
+                                }
+                                else if (viewModel.Controller.VisualState == "NotConnected")
+                                {
+                                    VisualStateManager.GoToState(this, "NotConnected", false);
+                                }
+                                else
+                                {
+                                    VisualStateManager.GoToState(this, "Connected", false);
+                                }
+                            }
+                        },
+                        h => viewModel.Controller.PropertyChanged += new PropertyChangedEventHandler(h),
+                        h => viewModel.Controller.PropertyChanged -= new PropertyChangedEventHandler(h));
+                }
+            }
+        }
     }
 
     public ConnectionView()

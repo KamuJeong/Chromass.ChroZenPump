@@ -16,58 +16,12 @@ using Microsoft.UI.Xaml.Controls;
 namespace CDS.Chromass.ChroZenPump.ViewModels;
 
 
-public class MonitorViewModel : ObservableObject, IDisposable
+public class MonitorViewModel : ObservableObject
 {
-    private class MonitorViewModelSubscriber : WeakEventSubscriber<MonitorViewModel, ChroZenPumpDevice>
-    {
-        public MonitorViewModelSubscriber(MonitorViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
-        {
-        }
-
-        public override void SubScribe()
-        {
-            Publisher.API.MessageReceived += API_MessageReceived;
-            Publisher.API.StateUpdated += API_StateUpdated;       
-        }
-
-        private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
-        {
-            if (GetSubscriber() is MonitorViewModel subscriber)
-            {
-                subscriber.OnPropertyChanged(String.Empty);
-            }
-        }
-
-        private void API_MessageReceived(object? sender, MessageUpdatedEventArgs e)
-        {
-            if (GetSubscriber() is MonitorViewModel subscriber)
-            {
-                if (e.Message.Type == MessageTypes.State)
-                {
-                    switch ((Statuses)e.Message.NewValue)
-                    {
-                        case Statuses.Error:    subscriber.VisualState = "Error"; break;
-                        case Statuses.Run:      subscriber.VisualState = "Run"; break;
-                        default:                subscriber.VisualState = "Normal"; break;
-                    }
-                }
-            }
-        }
-
-        public override void Unsubscribe()
-        {
-            Publisher.API.MessageReceived -= API_MessageReceived;
-            Publisher.API.StateUpdated -= API_StateUpdated;
-        }
-    }
-
-
     public ChroZenPumpDevice Device
     {
         get; init;
     }
-
-    private readonly MonitorViewModelSubscriber monitorViewModelSubscriber;
 
     public MonitorViewModel(Device device)
     {
@@ -78,8 +32,25 @@ public class MonitorViewModel : ObservableObject, IDisposable
 
         Device = (ChroZenPumpDevice)device;
 
-        monitorViewModelSubscriber = new MonitorViewModelSubscriber(this, Device);
-        monitorViewModelSubscriber.SubScribe();
+        new WeakEventSubscriber<MonitorViewModel, StateUpdatedEventArgs>(this, 
+            (s, e) => OnPropertyChanged(string.Empty),                        
+            h => Device.API.StateUpdated += h, 
+            h => Device.API.StateUpdated -= h);
+        new WeakEventSubscriber<MonitorViewModel, MessageUpdatedEventArgs>(this, 
+            (s, e) =>
+            {
+                if (e.Message.Type == MessageTypes.State)
+                {
+                    switch ((Statuses)e.Message.NewValue)
+                    {
+                        case Statuses.Error:    VisualState = "Error"; break;
+                        case Statuses.Run:      VisualState = "Run"; break;
+                        default:                VisualState = "Normal"; break;
+                    }
+                }
+            },                        
+            h => Device.API.MessageReceived += h, 
+            h => Device.API.MessageReceived -= h);
     }
 
     private string visualState = "Normal";
@@ -104,6 +75,4 @@ public class MonitorViewModel : ObservableObject, IDisposable
     public string FlowDesc => $"{Flow} mL/min [{A}:{B}:{C}:{D}]";
 
     public double Pressure => Device.API.State.Pressure;
-
-    public void Dispose() => monitorViewModelSubscriber.Unsubscribe();
 }

@@ -10,68 +10,38 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CDS.Core;
 
 namespace CDS.Chromass.ChroZenPump.ViewModels;
-public class ControlViewModel : ObservableObject, IDisposable
+public class ControlViewModel : ObservableObject
 {
-    private class ControlViewModelSubscriber : WeakEventSubscriber<ControlViewModel, ChroZenPumpDevice>
-    {
-        public ControlViewModelSubscriber(ControlViewModel subscriber, ChroZenPumpDevice publisher) : base(subscriber, publisher)
-        {
-        }
-
-        public override void SubScribe()
-        {
-            Publisher.API.StateUpdated += API_StateUpdated;
-            Publisher.API.Controller.Setup.Updated += Setup_Updated;
-        }
-
-        private void Setup_Updated(object? sender, PacketUpdatedEventArgs<global::Chromass.ChroZenPump.Packets.Setup> e)
-        {
-            if (GetSubscriber() is ControlViewModel subscriber)
-            {
-                subscriber.OnPropertyChanged(string.Empty);
-            }
-        }
-
-        private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
-        {
-            if (GetSubscriber() is ControlViewModel subscriber)
-            {
-                subscriber.Status = e.State.Status;
-                subscriber.Error = e.State.Error;
-                subscriber.ElapsedTime = e.State.ElapsedTime;
-                subscriber.ActualFlow = e.State.Flow;
-                subscriber.Pressure = e.State.Pressure;
-                subscriber.ActualA = e.State.A;
-                subscriber.ActualB = e.State.B;
-                subscriber.ActualC = e.State.C;
-                subscriber.ActualD = e.State.D;
-            }
-        }
-
-        public override void Unsubscribe()
-        {
-            Publisher.API.StateUpdated -= API_StateUpdated;
-            Publisher.API.Controller.Setup.Updated -= Setup_Updated;
-        }
-    }
-
-
     public ControllerViewModel Controller
     {
         get; init;
     }
 
-    private readonly ControlViewModelSubscriber controlViewModelSubscriber;
-
     public ControlViewModel(ControllerViewModel controller)
     {
         Controller = controller;
 
-        controlViewModelSubscriber = new ControlViewModelSubscriber(this, Controller.Device);
-        controlViewModelSubscriber.SubScribe();
-    }
+        new WeakEventSubscriber<ControlViewModel, StateUpdatedEventArgs>(this,
+            (s, e) =>
+            {
+                Status = e.State.Status;
+                Error = e.State.Error;
+                ElapsedTime = e.State.ElapsedTime;
+                ActualFlow = e.State.Flow;
+                Pressure = e.State.Pressure;
+                ActualA = e.State.A;
+                ActualB = e.State.B;
+                ActualC = e.State.C;
+                ActualD = e.State.D;
+            },
+            h => Controller.Device.API.StateUpdated += h,
+            h => Controller.Device.API.StateUpdated -= h);
 
-    public void Dispose() => controlViewModelSubscriber.Unsubscribe();
+        new WeakEventSubscriber<ControlViewModel, SetupUpdatedEventArgs>(this,
+            (s, e) => OnPropertyChanged(string.Empty),
+            h => Controller.Device.API.SetupUpdated += h,
+            h => Controller.Device.API.SetupUpdated -= h);
+    }
 
     private Statuses status;
     public Statuses Status

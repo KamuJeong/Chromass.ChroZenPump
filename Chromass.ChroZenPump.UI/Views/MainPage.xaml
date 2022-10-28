@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Chromass.ChroZenPump.UI.Views"
+    xmlns:pump="using:CDS.Chromass.ChroZenPump.Views"
     Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <VisualStateManager.VisualStateGroups>
+        <!--<VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="ConnectionStates">
                 <VisualState x:Name="NotConnected" />
                 <VisualState x:Name="Connected">
@@ -27,9 +28,12 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        </VisualStateManager.VisualStateGroups>-->
+
         
-        <Grid x:Name="MainView"
+        
+        
+        <!--<Grid x:Name="MainView"
               Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -65,6 +69,6 @@
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch"
                               ViewModel="{x:Bind ViewModel.APIViewModel.ConnectionViewModel}">
-        </local:ConnectionPage>
+        </local:ConnectionPage>-->
     </Grid>
 </Page>

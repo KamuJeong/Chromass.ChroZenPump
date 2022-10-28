@@ -15,6 +15,7 @@ using Chromass.ChroZenPump.APIs;
 namespace CDS.Chromass.ChroZenPump;
 
 [Refer("Monitor", typeof(CDS.Chromass.ChroZenPump.Views.MonitorView))]
+[Refer("Controller", typeof(CDS.Chromass.ChroZenPump.Views.ControllerView))]
 public class ChroZenPumpDevice : Device
 {
     public API API
@@ -72,7 +73,7 @@ public class ChroZenPumpDevice : Device
 
     protected async override Task<bool> LoadMethodAsync(IMethod? method)
     {
-        if (await API.Controller.AskSetupAsync(1000))
+        if (await API.LoadSetupAsync())
         {
             GetMethod(method);
             return true;

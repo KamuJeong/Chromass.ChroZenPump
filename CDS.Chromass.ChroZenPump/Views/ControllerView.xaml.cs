@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CDS.Chromass.ChroZenPump.ViewModels;
+using CDS.Core;
 using CDS.InstrumentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -19,11 +21,11 @@ using Windows.Foundation.Collections;
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace CDS.Chromass.ChroZenPump.Views;
-public sealed partial class ControllerView : UserControl, IDisposable
+public sealed partial class ControllerView : UserControl
 {
-    public ControllerViewModel ViewModel
+    public ControllerViewModel? ViewModel
     {
-        get; init;
+        get; private set;
     }
 
     public ControllerView(Device device)
@@ -32,6 +34,4 @@ public sealed partial class ControllerView : UserControl, IDisposable
 
         this.InitializeComponent();
     }
-
-    public void Dispose() => ViewModel.Dispose();
 }

@@ -104,3 +104,16 @@ public class Configuration : Base<Packets.Configuration>
         }
     }
 }
+
+
+public class ConfigurationUpdatedEventArgs : EventArgs
+{
+    public Configuration Configuration
+    {
+        get; init;
+    }
+    public ConfigurationUpdatedEventArgs(Configuration configuration)
+    {
+        Configuration = configuration;
+    }
+}

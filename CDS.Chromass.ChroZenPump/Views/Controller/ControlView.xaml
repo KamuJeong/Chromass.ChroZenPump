@@ -7,7 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Pivot Title="ChroZen HPLC Pump">
+        <PivotItem Header="Control">
+            <TextBlock Text="all emails go here." />
+        </PivotItem>
+        <PivotItem Header="Program">
+            <TextBlock Text="unread emails go here." />
+        </PivotItem>
+        <PivotItem Header="Purge">
+            <TextBlock Text="flagged emails go here." />
+        </PivotItem>
+        <PivotItem Header="Service">
+            <TextBlock Text="urgent emails go here." />
+        </PivotItem>
 
-    </Grid>
+    </Pivot>
 </UserControl>

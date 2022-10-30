@@ -33,5 +33,6 @@ public sealed partial class ControllerView : UserControl
         ViewModel = new ControllerViewModel(device);
 
         this.InitializeComponent();
+
     }
 }

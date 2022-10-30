@@ -7,7 +7,34 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid RowSpacing="5">
+    <Pivot x:Name="Pivot" Title="ChroZen HPLC Pump">
+        <PivotItem Header="System">
+            <StackPanel>
+                <local:ConnectionView Margin="0,8,0,30"
+                              ViewModel="{x:Bind ViewModel.ConnectionViewModel}" />
+
+                <local:SystemView ViewModel="{x:Bind ViewModel.SystemViewModel}" />
+            </StackPanel>
+        </PivotItem>
+        
+        <PivotItem Header="Control">
+            <TextBlock Text="all emails go here." />
+        </PivotItem>
+        <PivotItem Header="Program">
+            <TextBlock Text="unread emails go here." />
+        </PivotItem>
+        <PivotItem Header="Purge" >
+            <TextBlock Text="flagged emails go here." />
+        </PivotItem>
+        <PivotItem Header="Service">
+            <TextBlock Text="urgent emails go here." />
+        </PivotItem>
+
+    </Pivot>
+
+
+
+    <!--<Grid RowSpacing="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1" />
@@ -49,5 +76,6 @@
         </TextBlock>
         <Border Grid.Row="7" Background="{ThemeResource TextBoxBorderThemeBrush}" />
 
-    </Grid>
+        <local:ControlView Grid.Row="8" Margin="0,0,0,40" />
+    </Grid>-->
 </UserControl>

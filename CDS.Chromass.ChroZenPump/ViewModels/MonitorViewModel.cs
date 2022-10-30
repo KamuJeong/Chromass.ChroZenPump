@@ -33,19 +33,19 @@ public class MonitorViewModel : ObservableObject
         Device = (ChroZenPumpDevice)device;
 
         new WeakEventSubscriber<MonitorViewModel, StateUpdatedEventArgs>(this, 
-            (s, e) => OnPropertyChanged(string.Empty),                        
+            (sub, s, e) => sub.OnPropertyChanged(string.Empty),                        
             h => Device.API.StateUpdated += h, 
             h => Device.API.StateUpdated -= h);
         new WeakEventSubscriber<MonitorViewModel, MessageUpdatedEventArgs>(this, 
-            (s, e) =>
+            (sub, s, e) =>
             {
                 if (e.Message.Type == MessageTypes.State)
                 {
                     switch ((Statuses)e.Message.NewValue)
                     {
-                        case Statuses.Error:    VisualState = "Error"; break;
-                        case Statuses.Run:      VisualState = "Run"; break;
-                        default:                VisualState = "Normal"; break;
+                        case Statuses.Error:    sub.VisualState = "Error"; break;
+                        case Statuses.Run:      sub.VisualState = "Run"; break;
+                        default:                sub.VisualState = "Normal"; break;
                     }
                 }
             },                        

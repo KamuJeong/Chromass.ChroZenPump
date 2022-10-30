@@ -22,23 +22,23 @@ public class ControlViewModel : ObservableObject
         Controller = controller;
 
         new WeakEventSubscriber<ControlViewModel, StateUpdatedEventArgs>(this,
-            (s, e) =>
+            (sub, s, e) =>
             {
-                Status = e.State.Status;
-                Error = e.State.Error;
-                ElapsedTime = e.State.ElapsedTime;
-                ActualFlow = e.State.Flow;
-                Pressure = e.State.Pressure;
-                ActualA = e.State.A;
-                ActualB = e.State.B;
-                ActualC = e.State.C;
-                ActualD = e.State.D;
+                sub.Status = e.State.Status;
+                sub.Error = e.State.Error;
+                sub.ElapsedTime = e.State.ElapsedTime;
+                sub.ActualFlow = e.State.Flow;
+                sub.Pressure = e.State.Pressure;
+                sub.ActualA = e.State.A;
+                sub.ActualB = e.State.B;
+                sub.ActualC = e.State.C;
+                sub.ActualD = e.State.D;
             },
             h => Controller.Device.API.StateUpdated += h,
             h => Controller.Device.API.StateUpdated -= h);
 
         new WeakEventSubscriber<ControlViewModel, SetupUpdatedEventArgs>(this,
-            (s, e) => OnPropertyChanged(string.Empty),
+            (sub, s, e) => sub.OnPropertyChanged(string.Empty),
             h => Controller.Device.API.SetupUpdated += h,
             h => Controller.Device.API.SetupUpdated -= h);
     }

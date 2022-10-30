@@ -23,11 +23,11 @@ public class SystemViewModel : ObservableObject
     {
         Controller = controller;
 
-        new WeakEventSubscriber<SystemViewModel, InformationUpdatedEventArgs>(this, (s,e) => OnPropertyChanged(string.Empty),
+        new WeakEventSubscriber<SystemViewModel, InformationUpdatedEventArgs>(this, (sub, s, e) => sub.OnPropertyChanged(string.Empty),
             h => Controller.Device.API.InformationUpdated += h,
             h => Controller.Device.API.InformationUpdated -= h);
 
-        new WeakEventSubscriber<SystemViewModel, ConfigurationUpdatedEventArgs>(this, (s, e) => OnPropertyChanged(string.Empty),
+        new WeakEventSubscriber<SystemViewModel, ConfigurationUpdatedEventArgs>(this, (sub, s, e) => sub.OnPropertyChanged(string.Empty),
             h => Controller.Device.API.ConfigurationUpdated += h,
             h => Controller.Device.API.ConfigurationUpdated -= h);
     }

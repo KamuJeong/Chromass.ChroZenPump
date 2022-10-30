@@ -8,23 +8,23 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\khjun\\.nuget\\packages\\": {},
+    "C:\\Users\\niezc\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\khjun\\source\\repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\Chromass.ChroZenPump.csproj",
+      "projectUniqueName": "C:\\Users\\niezc\\Source\\Repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\Chromass.ChroZenPump.csproj",
       "projectName": "Chromass.ChroZenPump",
-      "projectPath": "C:\\Users\\khjun\\source\\repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\Chromass.ChroZenPump.csproj",
-      "packagesPath": "C:\\Users\\khjun\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\khjun\\source\\repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\obj\\",
+      "projectPath": "C:\\Users\\niezc\\Source\\Repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\Chromass.ChroZenPump.csproj",
+      "packagesPath": "C:\\Users\\niezc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\niezc\\Source\\Repos\\Chromass.ChroZenPump\\Chromass.ChroZenPump\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\khjun\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\niezc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -66,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

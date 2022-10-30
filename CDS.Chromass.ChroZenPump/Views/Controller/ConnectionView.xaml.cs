@@ -34,21 +34,21 @@ public sealed partial class ConnectionView : UserControl
                 if (viewModel != null)
                 {
                     new WeakEventSubscriber<ConnectionView, PropertyChangedEventArgs>(this,
-                        (s, e) =>
+                        (sub, s, e) =>
                         {
                             if (e.PropertyName == "VisualState")
                             {
-                                if (viewModel.Controller.VisualState == "Connecting")
+                                if (sub.viewModel?.Controller.VisualState == "Connecting")
                                 {
-                                    VisualStateManager.GoToState(this, "Connecting", false);
+                                    VisualStateManager.GoToState(sub, "Connecting", false);
                                 }
-                                else if (viewModel.Controller.VisualState == "NotConnected")
+                                else if (sub.viewModel?.Controller.VisualState == "NotConnected")
                                 {
-                                    VisualStateManager.GoToState(this, "NotConnected", false);
+                                    VisualStateManager.GoToState(sub, "NotConnected", false);
                                 }
                                 else
                                 {
-                                    VisualStateManager.GoToState(this, "Connected", false);
+                                    VisualStateManager.GoToState(sub, "Connected", false);
                                 }
                             }
                         },

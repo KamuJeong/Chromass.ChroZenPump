@@ -32,18 +32,6 @@ public sealed partial class MonitorView : UserControl
     public MonitorView(Device device)
     {
         ViewModel = new MonitorViewModel(device);
-
         this.InitializeComponent();
-
-        new WeakEventSubscriber<MonitorView, PropertyChangedEventArgs>(this,
-            (sub, s, e) =>
-            {
-                if (e.PropertyName == "VisualState")
-                {
-                    VisualStateManager.GoToState(sub, sub.ViewModel?.VisualState, false);
-                }
-            },
-            h => ViewModel.PropertyChanged += new PropertyChangedEventHandler(h),
-            h => ViewModel.PropertyChanged -= new PropertyChangedEventHandler(h));
     }
 }

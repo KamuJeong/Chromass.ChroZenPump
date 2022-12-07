@@ -77,6 +77,7 @@ public class Configuration : Base<Packets.Configuration>
             if ((Wrapper.Packet.btRinsePumpOnOff != 0) != value)
             {
                 Wrapper.Packet.btRinsePumpOnOff = (byte)(value ? 1 : 0);
+                CallAction();
             }
         }
     }
@@ -89,6 +90,7 @@ public class Configuration : Base<Packets.Configuration>
             if ((Wrapper.Packet.btBuzzerEnable != 0) != value)
             {
                 Wrapper.Packet.btBuzzerEnable = (byte)(value ? 1 : 0);
+                CallAction();
             }
         }
     }
@@ -100,6 +102,7 @@ public class Configuration : Base<Packets.Configuration>
             if ((Wrapper.Packet.btDegassorOnOff != 0) != value)
             {
                 Wrapper.Packet.btDegassorOnOff = (byte)(value ? 1 : 0);
+                CallAction();
             }
         }
     }

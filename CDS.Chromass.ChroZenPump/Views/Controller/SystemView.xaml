@@ -71,12 +71,12 @@
         </StackPanel>
 
         <TextBlock Grid.Row="3" Grid.Column="2" Text="Use the rinse pump" VerticalAlignment="Center" />
-        <CheckBox Grid.Row="3" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsRinsePumpEnabled}" />
+        <CheckBox Grid.Row="3" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsRinsePumpEnabled, Mode=TwoWay}" />
 
         <TextBlock Grid.Row="4" Grid.Column="2" Text="Allow buzzer beeps" VerticalAlignment="Center" />
-        <CheckBox Grid.Row="4" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsBuzzerEnabled}" />
+        <CheckBox Grid.Row="4" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsBuzzerEnabled, Mode=TwoWay}" />
 
         <TextBlock Grid.Row="5" Grid.Column="2" Text="Turn on the degassor" VerticalAlignment="Center" />
-        <CheckBox Grid.Row="5" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsDegassorEnabled}" />
+        <CheckBox Grid.Row="5" Grid.Column="3" IsChecked="{x:Bind ViewModel.IsDegassorEnabled, Mode=TwoWay}" />
     </Grid>
 </UserControl>

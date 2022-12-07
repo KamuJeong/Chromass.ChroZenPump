@@ -27,10 +27,14 @@
 
   <ItemGroup>
     <Reference Include="CDS.Core">
-      <HintPath>..\..\ChroZen.CDS.Core\CDS.InstrumentModel\bin\Debug\net6.0\CDS.Core.dll</HintPath>
+      <HintPath>..\..\ChroZen.CDS.Core\CDS.Core\bin\Debug\net6.0\CDS.Core.dll</HintPath>
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </Reference>
     <Reference Include="CDS.InstrumentModel">
       <HintPath>..\..\ChroZen.CDS.Core\CDS.InstrumentModel\bin\Debug\net6.0\CDS.InstrumentModel.dll</HintPath>
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
     </Reference>
     <Reference Include="ChromassProtocol">
       <HintPath>..\..\ChroZen.CDS.Core\ChromassProtocol\bin\Debug\net6.0\ChromassProtocol.dll</HintPath>
@@ -38,6 +42,21 @@
     <Reference Include="Communicator">
       <HintPath>..\..\ChroZen.CDS.Core\Communicator\bin\Debug\net6.0\Communicator.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

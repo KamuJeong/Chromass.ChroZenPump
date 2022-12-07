@@ -21,9 +21,9 @@ public sealed partial class MainPage : Page
         ViewModel = App.GetService<MainViewModel>();
         InitializeComponent();
 
-        var controller = ViewModel.ContollerView as FrameworkElement;
-        ContentArea.Children.Add(controller);
-
+        //var controller = ViewModel.ContollerView as FrameworkElement;
+        //ContentArea.Children.Add(controller);
+        ContentArea.Children.Add(ViewModel.MonitorView);
 
 //        ViewModel.APIViewModel.ConnectionViewModel.PropertyChanged += ConnectionViewModel_PropertyChanged;
     }

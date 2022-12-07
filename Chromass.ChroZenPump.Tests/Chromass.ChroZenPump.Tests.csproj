@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ChromassProtocol">
+      <HintPath>..\..\ChroZen.CDS.Core\ChromassProtocol\bin\Debug\net6.0\ChromassProtocol.dll</HintPath>
+    </Reference>
     <Reference Include="Communicator">
       <HintPath>..\..\ChroZen.CDS.Core\Communicator\bin\Debug\net6.0\Communicator.dll</HintPath>
     </Reference>

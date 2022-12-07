@@ -18,7 +18,8 @@
         </PivotItem>
         
         <PivotItem Header="Control">
-            <TextBlock Text="all emails go here." />
+            <local:ControlView Margin="0,8" 
+                               ViewModel="{x:Bind ViewModel.ControlViewModel}" />
         </PivotItem>
         <PivotItem Header="Program">
             <TextBlock Text="unread emails go here." />

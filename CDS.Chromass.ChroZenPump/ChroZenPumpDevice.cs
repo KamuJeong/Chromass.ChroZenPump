@@ -11,13 +11,26 @@ using Communicator;
 using Microsoft.UI.Xaml.Controls;
 using Chromass.ChroZenPump;
 using Chromass.ChroZenPump.APIs;
+using Windows.ApplicationModel.Contacts;
 
 namespace CDS.Chromass.ChroZenPump;
 
 [Refer("Monitor", typeof(CDS.Chromass.ChroZenPump.Views.MonitorView))]
 [Refer("Controller", typeof(CDS.Chromass.ChroZenPump.Views.ControllerView))]
+[Refer("Maker")]
+[Refer("Channels")]
 public class ChroZenPumpDevice : Device
 {
+    public static string Maker => "YoungIn Chromass Ltd.";
+    public static DeviceChannel[] Channels => new DeviceChannel[]
+    {
+        new DeviceChannel
+        {
+            Unit = "psi",
+            AvailableHz = new double[] { 1.0, 5.0 },
+        },
+    };
+
     public API API
     {
         get; private set;
@@ -26,6 +39,7 @@ public class ChroZenPumpDevice : Device
     public ChroZenPumpDevice(ModelBase? parent, string? name) : base(parent, name)
     {
         API = new API(new Tcp());
+        Model = "ChroZen HPLC Pump";
     }
 
     public override TimeSpan RunTime

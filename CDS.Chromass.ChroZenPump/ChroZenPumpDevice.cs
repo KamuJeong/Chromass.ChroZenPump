@@ -26,12 +26,13 @@ public class ChroZenPumpDevice : Device
     {
         new DeviceChannel
         {
+            Name = "Pressure",
             Unit = "psi",
             AvailableHz = new double[] { 1.0, 5.0 },
         },
     };
 
-    public API API
+    public API? API
     {
         get; private set;
     }

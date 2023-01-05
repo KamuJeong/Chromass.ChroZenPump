@@ -33,7 +33,10 @@ public sealed partial class ConnectionView : UserControl
                 viewModel = value;
                 if (viewModel != null)
                 {
-                    new WeakEventSubscriber<ConnectionView, PropertyChangedEventArgs>(this,
+                    new WeakEventSubscriber<ControllerViewModel, ConnectionView, PropertyChangedEventArgs>(
+                        viewModel.Controller,
+                        nameof(viewModel.Controller.PropertyChanged),
+                        this,
                         (sub, s, e) =>
                         {
                             if (e.PropertyName == "VisualState")
@@ -51,9 +54,7 @@ public sealed partial class ConnectionView : UserControl
                                     VisualStateManager.GoToState(sub, "Connected", false);
                                 }
                             }
-                        },
-                        h => viewModel.Controller.PropertyChanged += new PropertyChangedEventHandler(h),
-                        h => viewModel.Controller.PropertyChanged -= new PropertyChangedEventHandler(h));
+                        });
                 }
             }
         }

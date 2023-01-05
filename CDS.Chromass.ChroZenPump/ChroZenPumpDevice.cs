@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 using Chromass.ChroZenPump;
 using Chromass.ChroZenPump.APIs;
 using Windows.ApplicationModel.Contacts;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CDS.Chromass.ChroZenPump;
 
@@ -26,13 +27,15 @@ public class ChroZenPumpDevice : Device
     {
         new DeviceChannel
         {
+            Type = DeviceChannelType.Pressure,
             Name = "Pressure",
             Unit = "psi",
             AvailableHz = new double[] { 1.0, 5.0 },
         },
     };
 
-    public API? API
+    [NotNull]
+    public API API
     {
         get; private set;
     }
@@ -41,24 +44,62 @@ public class ChroZenPumpDevice : Device
     {
         API = new API(new Tcp());
         Model = "ChroZen HPLC Pump";
+        Uri = new Uri("tcp://localhost:4242");
+
+        API.StateUpdated += API_StateUpdated;
+    }
+
+    private TimeSpan ElapsedTime
+    {
+        get
+        {
+            if(Parent is Instrument instrument)
+            {
+                return instrument.State.ElapsedTime;
+            }
+            return TimeSpan.MaxValue;
+        }
+    }
+
+    private int counter = 0;
+
+    private void API_StateUpdated(object? sender, StateUpdatedEventArgs e)
+    {
+        if(FindChildren<SignalSet>(null).FirstOrDefault() is SignalSet sig)
+        {
+            if (sig.Hz == 1.0)
+            {
+                if(counter == 0)
+                    sig.WriteData(e.State.Pressure,
+                        e.State.Status == Statuses.Run && sig.Use && sig.Time >= ElapsedTime);
+                counter = (++counter) % 5;
+            }
+            else
+            {
+                sig.WriteData(e.State.Pressure,
+                    e.State.Status == Statuses.Run && sig.Use && sig.Time >= ElapsedTime);
+            }
+        }
     }
 
     public override TimeSpan RunTime
         => TimeSpan.FromMinutes(
-                Math.Max(API.Setup.Gradients.LastOrDefault()?.Time ?? 0.0,
-                            API.Setup.Events.LastOrDefault()?.Time ?? 0.0)
+                new[] { API.Setup.Gradients.LastOrDefault()?.Time ?? 0.0,
+                        API.Setup.Events.LastOrDefault()?.Time ?? 0.0,
+                        FindChildren<SignalSet>(null).Where(s => s.Use).Select(s => s.Time.TotalMinutes).DefaultIfEmpty().Max()
+                }.Max()
             );
 
     public async override Task<bool> ConnectAsync(CancellationToken token)
     {
         if (Uri == null)
-            throw new InvalidOperationException("set an URI before connection");
+            return false;
 
         try
         {
             await API.ConnectAsync(Uri.Host, Uri.Port, token);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Debug.WriteLine(ex);
         }
@@ -97,7 +138,7 @@ public class ChroZenPumpDevice : Device
     }
 
     protected override bool CheckReadyStatus() => API.State.Flow > 0.0 && API.Setup.Flow == API.State.Flow;
-    
+
     protected override void Halt() => API.Halt();
     protected override bool Ready()
     {
@@ -107,7 +148,7 @@ public class ChroZenPumpDevice : Device
     }
 
     protected override bool PreRun() => false;
-    
+
     protected override bool Run()
     {
         if (RunTime > TimeSpan.Zero)

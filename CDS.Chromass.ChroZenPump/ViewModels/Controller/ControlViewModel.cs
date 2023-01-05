@@ -21,7 +21,10 @@ public class ControlViewModel : ObservableObject
     {
         Controller = controller;
 
-        new WeakEventSubscriber<ControlViewModel, StateUpdatedEventArgs>(this,
+        new WeakEventSubscriber<API, ControlViewModel, StateUpdatedEventArgs>(
+            Controller.Device.API, 
+            nameof(Controller.Device.API.StateUpdated),
+            this,
             (sub, s, e) =>
             {
                 sub.Status = e.State.Status;
@@ -33,14 +36,13 @@ public class ControlViewModel : ObservableObject
                 sub.ActualB = e.State.B;
                 sub.ActualC = e.State.C;
                 sub.ActualD = e.State.D;
-            },
-            h => Controller.Device.API.StateUpdated += h,
-            h => Controller.Device.API.StateUpdated -= h);
+            });
 
-        new WeakEventSubscriber<ControlViewModel, SetupUpdatedEventArgs>(this,
-            (sub, s, e) => sub.OnPropertyChanged(string.Empty),
-            h => Controller.Device.API.SetupUpdated += h,
-            h => Controller.Device.API.SetupUpdated -= h);
+        new WeakEventSubscriber<API, ControlViewModel, SetupUpdatedEventArgs>(
+            Controller.Device.API,
+            nameof(Controller.Device.API.SetupUpdated),
+            this,
+            (sub, s, e) => sub.OnPropertyChanged(string.Empty));
     }
 
     private Statuses status;
